@@ -22,6 +22,9 @@ export default class View extends Emitter {
     let width = window.innerWidth
     let ratio = window.devicePixelRatio
     let url = external ? path : `/app/${o.path}.wxml?w=${width}&r=${ratio}`
+    if (window.fhashes && window.fhashes[o.path]) {
+      url = `/app/${o.path}.html?v=` + window.fhashes[o.path];
+    }
     this.el = createFrame(`view-${id}`, url, false, root)
     this.ready = false
     if (this.isMap) {

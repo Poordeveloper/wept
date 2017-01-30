@@ -135,7 +135,7 @@ body {
   background: #3cc51f;
   position: fixed;
   z-index: 1031;
-  top: 42px;
+  top: 0; /* 42px; */
   left: 0;
   width: 100%;
   height: 2px;

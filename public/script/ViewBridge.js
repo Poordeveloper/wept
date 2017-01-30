@@ -1,3 +1,11 @@
+/*
+window.onerror = function(msg, url, line, col, error) {
+  var extra = !col ? '' : '\ncolumn: ' + col;
+  extra += !error ? '' : '\nerror: ' + error.stack;
+  alert('exception: ' + msg + '\nurl: ' + url + '\nline: ' + line + extra);
+}
+*/
+var Symbol = {};
 ! function(e, t) {
   if ("object" == typeof exports && "object" == typeof module) module.exports = t();
   else if ("function" == typeof define && define.amd) define([], t);
@@ -92,7 +100,7 @@
     }
 
     function s(e, t, n) {
-      window.WeixinJSBridge ? d(e, t, n) : document.addEventListener("WeixinJSBridgeReady", function() {
+      window.myWeixinJSBridge ? d(e, t, n) : document.addEventListener("myWeixinJSBridgeReady", function() {
         d(e, t, n)
       })
     }
@@ -103,9 +111,9 @@
     }
 
     function A() {
-      window.WeixinJSBridge = C;
+      window.myWeixinJSBridge = C;
       var e = document.createEvent("UIEvent");
-      e.initEvent("WeixinJSBridgeReady", !1, !1), document.dispatchEvent(e), v["default"].register(function() {
+      e.initEvent("myWeixinJSBridgeReady", !1, !1), document.dispatchEvent(e), v["default"].register(function() {
         var e = {},
           t = {};
         a("backgroundjs", e, "PULLDOWN_REFRESH", t)
@@ -159,7 +167,7 @@
         fn: t
       }, r(e, {}, !0)
     }, C.call = function() {
-      console.error("WeixinJSBridge.call 不被支持，请参考 http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html 进行正确调用")
+      console.error("myWeixinJSBridge.call 不被支持，请参考 http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html 进行正确调用")
     }, C.log = function(e) {
       console.log(e)
     }, C.publish = function(e, t, n) {
@@ -317,9 +325,11 @@
       var t = function() {
         return e
       };
+      try {
       Object.defineProperty(navigator, "platform", {
         get: t
       })
+      } catch (err) {}
     }
     Object.defineProperty(t, "__esModule", {
       value: !0
@@ -412,7 +422,7 @@
       var n = E();
       y(n, e), n.id = v(), document.body.appendChild(n), n.addEventListener("click", function(e) {
         var t = n.dataset.data;
-        WeixinJSBridge.publish("onShareAppMessage", {
+        myWeixinJSBridge.publish("onShareAppMessage", {
           data: t,
           path: location.pathname
         }, !0)
@@ -446,7 +456,7 @@
       var n = E();
       y(n, e, "contact"), n.id = v(), document.body.appendChild(n), n.addEventListener("click", function(e) {
         var t = n.dataset.sessionFrom;
-        WeixinJSBridge.publish("insertContactButton", {
+        myWeixinJSBridge.publish("insertContactButton", {
           sessionFrom: t
         }, !0)
       }), t({

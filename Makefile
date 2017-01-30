@@ -3,7 +3,8 @@ watch:
 
 publish:
 	@gulp prepublish
-	@publish
+	#@publish
+	@uglifyjs public/script/build.js > x; mv x public/script/build.js
 
 update:
 	@cp /Users/chemzqm/Library/Application\ Support/微信web开发者工具/WeappVendor/* ./.official

@@ -45,9 +45,9 @@ class Tabbar extends Component {
       this.scrollable.style.bottom = '56px'
     }
     if (state.position == 'top' && state.activeIdx != -1) {
-      this.scrollable.style.top = '47px'
+      this.scrollable.style.top = '0'; //'47px'
     } else {
-      this.scrollable.style.top = '42px'
+      this.scrollable.style.top = '0'; //'42px'
     }
   }
   render() {

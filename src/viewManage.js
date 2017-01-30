@@ -21,7 +21,9 @@ function onRoute() {
     }
   }
   let str = arr.reverse().join('|')
+  try {
   sessionStorage.setItem('routes', str)
+  } catch (err) {}
 }
 
 export function redirectTo(path) {
@@ -36,6 +38,10 @@ export function redirectTo(path) {
   onRoute()
 }
 
+window.onpopstate = function() {
+  navigateBack();
+};
+
 export function navigateTo(path) {
   path = normalize(path)
   let exists = tabViews[path]
@@ -44,6 +50,7 @@ export function navigateTo(path) {
     curr = exists
     exists.show()
   } else {
+    window.history.pushState(null, '', path);
     let isTabView = util.isTabbar(path)
     let pid = curr ? curr.id : null
     let v = curr = new View(path)

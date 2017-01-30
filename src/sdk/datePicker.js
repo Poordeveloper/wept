@@ -30,7 +30,6 @@ export default class DatePicker extends Emitter {
     group.push(range(31, 1).map(o => {
       return {text: `${o}日`, value:o}
     }))
-    console.log(group)
     const el = domify(tmplFn({group}))
     this.root.appendChild(el)
 

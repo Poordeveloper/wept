@@ -32,8 +32,8 @@ export default function ({itemList, itemColor = '#000000'}) {
     el.addEventListener('click', (e) => {
       if (called) return
       if (classes(e.target).has('wx-action-sheet-mask')) {
-        called = true
-        resolve({cancel: true})
+        // called = true
+        // resolve({cancel: true})
       } else if (classes(e.target).has('wx-action-sheet-item')) {
         called = true
         resolve({cancel: false, tapIndex: Number(e.target.getAttribute('data-index'))})

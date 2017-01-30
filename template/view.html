@@ -4,6 +4,7 @@
   <link href="https://res.wx.qq.com/mpres/htmledition/images/favicon218877.ico" rel="Shortcut Icon">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <script src="/script/es6-shim.min.js"></script>
   <script>
   Object.defineProperty(console, 'warn', {
     get : function () {
@@ -20,6 +21,9 @@
     var ua = window.navigator.userAgent
     Object.defineProperty(navigator, 'userAgent', {
       get : function () {
+        // fix wrong webviewID parsed at o = i ? parseInt(n.match(/webview\/(\d*)/)[1]) : 0 in public/script/ViewBridge.js
+        // above error happens in weixin web debug tool
+        ua = ua.replace('webview/', '');
         return ua + ' weapp wechatdevtools webview/' + id
       }
     })

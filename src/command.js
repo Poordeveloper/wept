@@ -10,7 +10,7 @@ import {onNavigate, onLaunch, onBack} from './service'
 import header from './header'
 import throttle from 'throttleit'
 import {toAppService} from './service'
-import record from './sdk/record'
+// import record from './sdk/record'
 import Compass from './sdk/compass'
 import storage from './sdk/storage'
 import Picker from './sdk/picker'
@@ -432,7 +432,13 @@ export function getNetworkType(data) {
 }
 
 export function getLocation(data) {
-  if ("geolocation" in navigator) {
+  if (wx.isReady) {
+    wx.getLocation({
+      success: (res) => {
+        onSuccess(data, res);
+      },
+    });
+  } else if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(position => {
       let coords = position.coords
       onSuccess(data, {
@@ -507,6 +513,8 @@ export function clearStorage(data) {
   onSuccess(data)
 }
 
+
+/*
 export function startRecord(data) {
   record.startRecord({
     success: url => {
@@ -637,6 +645,7 @@ export function operateMusicPlayer(data) {
   }
   onSuccess(data)
 }
+*/
 
 export function uploadFile(data) {
   let args = data.args
@@ -839,7 +848,10 @@ export function showDatePickerView(data, args) {
       type: 'change',
       detail: {
         value: val
-      }
+      },
+      currentTarget: {
+        dataset: args.dataset,
+      },
     })
   })
 }

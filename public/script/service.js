@@ -3823,7 +3823,7 @@ needCoreJS && ! function(e, t, n) {
     }) : t.core = e
   }(1, 1),
   function(e) {
-    if ("function" == typeof logxx && logxx("jsbridge start"), !e.WeixinJSBridge) {
+    if ("function" == typeof logxx && logxx("jsbridge start"), !e.myWeixinJSBridge) {
       if (e.navigator && e.navigator.userAgent) {
         var t = e.navigator.userAgent;
         if (t.indexOf("appservice") > -1 || t.indexOf("wechatdevtools") > -1) return
@@ -3890,7 +3890,7 @@ needCoreJS && ! function(e, t, n) {
           var o;
           o = e.indexOf(u) != -1 ? c[e] : a[e], "function" == typeof o && o(t, n, r)
         };
-      e.WeixinJSBridge = {
+      e.myWeixinJSBridge = {
         invoke: p,
         invokeCallbackHandler: h,
         on: d,
@@ -3914,13 +3914,13 @@ var Reporter = function(e) {
     return t.m = e, t.c = n, t.p = "", t(0)
   }([function(e, t, n) {
     function r(e) {
-      "undefined" != typeof WeixinJSBridge ? e() : document.addEventListener("WeixinJSBridgeReady", e, !1)
+      "undefined" != typeof myWeixinJSBridge ? e() : document.addEventListener("myWeixinJSBridgeReady", e, !1)
     }
 
     function o() {
       var e = arguments;
       r(function() {
-        WeixinJSBridge.invoke.apply(WeixinJSBridge, e)
+        myWeixinJSBridge.invoke.apply(myWeixinJSBridge, e)
       })
     }
 
@@ -4088,7 +4088,7 @@ var Reporter = function(e) {
           if (l.ErrorType[t]) {
             var o = r ? n.message + ";" + r : n.message,
               c = t + "\n" + o + "\n" + n.stack;
-            if (console.error(c), "undefined" != typeof window && "undefined" != typeof window.__webviewId__ ? WeixinJSBridge.publish("WEBVIEW_ERROR_MSG", {
+            if (console.error(c), "undefined" != typeof window && "undefined" != typeof window.__webviewId__ ? myWeixinJSBridge.publish("WEBVIEW_ERROR_MSG", {
                 data: {
                   msg: c
                 },
@@ -4650,7 +4650,7 @@ var Reporter = function(e) {
           e.sourceType = e.sourceType || ["album", "camera"], e.camera = e.camera || ["front", "back"], (0, s.invokeMethod)("chooseVideo", e)
         },
         getLocation: function(e) {
-          console.log("getLocation", e, B.appStatus, B.hanged), B.appStatus === b.AppStatus.BACK_GROUND && B.hanged === !1 || (0, s.invokeMethod)("getLocation", e)
+          (0, s.invokeMethod)("getLocation", e)
         },
         openLocation: function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
@@ -5285,11 +5285,11 @@ var Reporter = function(e) {
     e.exports = O
   }, function(e, t, n) {
     function r() {
-      WeixinJSBridge.invoke.apply(WeixinJSBridge, arguments)
+      myWeixinJSBridge.invoke.apply(myWeixinJSBridge, arguments)
     }
 
     function o() {
-      WeixinJSBridge.on.apply(WeixinJSBridge, arguments)
+      myWeixinJSBridge.on.apply(myWeixinJSBridge, arguments)
     }
 
     function i() {
@@ -5299,7 +5299,7 @@ var Reporter = function(e) {
         options: {
           timestamp: Date.now()
         }
-      }, WeixinJSBridge.publish.apply(WeixinJSBridge, e)
+      }, myWeixinJSBridge.publish.apply(myWeixinJSBridge, e)
     }
 
     function a() {
@@ -5320,7 +5320,7 @@ var Reporter = function(e) {
             nativeTime: i.nativeTime || 0
           }
         })
-      }, WeixinJSBridge.subscribe.apply(WeixinJSBridge, e)
+      }, myWeixinJSBridge.subscribe.apply(myWeixinJSBridge, e)
     }
 
     function u(e) {
@@ -5971,7 +5971,7 @@ var Reporter = function(e) {
       u = n(6),
       c = {},
       s = new a.EventEmitter2;
-    WeixinJSBridge.subscribe("audioInsert", function(e, t) {
+    myWeixinJSBridge.subscribe("audioInsert", function(e, t) {
       var n = e.audioId;
       c[t + "_" + n] = !0, s.emit("audioInsert_" + t + "_" + n)
     });
@@ -6024,7 +6024,7 @@ var Reporter = function(e) {
         value: function(e) {
           var t = this;
           this._ready(function() {
-            WeixinJSBridge.publish("audio_" + t.audioId + "_actionChanged", e, [t.webviewId])
+            myWeixinJSBridge.publish("audio_" + t.audioId + "_actionChanged", e, [t.webviewId])
           })
         }
       }]), e
@@ -6359,11 +6359,11 @@ var Reporter = function(e) {
       f = "ios" !== (0, u.getPlatform)(),
       l = {},
       p = new c.EventEmitter2;
-    WeixinJSBridge.subscribe("videoPlayerInsert", function(e, t) {
+    myWeixinJSBridge.subscribe("videoPlayerInsert", function(e, t) {
       var n = e.domId,
         r = e.videoPlayerId;
       l[n] = l[n] || r, p.emit("videoPlayerInsert", n)
-    }), WeixinJSBridge.subscribe("videoPlayerRemoved", function(e, t) {
+    }), myWeixinJSBridge.subscribe("videoPlayerRemoved", function(e, t) {
       var n = e.domId;
       e.videoPlayerId;
       delete l[n]
@@ -6417,7 +6417,7 @@ var Reporter = function(e) {
       }, {
         key: "_sendAction",
         value: function() {
-          WeixinJSBridge.publish("video_" + this.domId + "_actionChanged", this.action)
+          myWeixinJSBridge.publish("video_" + this.domId + "_actionChanged", this.action)
         }
       }]), e
     }()
@@ -6451,7 +6451,7 @@ var Reporter = function(e) {
       l = new c.EventEmitter2,
       p = 0,
       h = 0;
-    WeixinJSBridge.subscribe("mapInsert", function(e, t) {
+    myWeixinJSBridge.subscribe("mapInsert", function(e, t) {
       var n = e.domId,
         r = e.mapId,
         o = e.bindregionchange,
@@ -6468,7 +6468,7 @@ var Reporter = function(e) {
       function e(t) {
         var n = this;
         if (r(this, e), "string" != typeof t) throw new Error("map ID should be a String");
-        this.domId = t, WeixinJSBridge.subscribe("doMapActionCallback", function(e, t) {
+        this.domId = t, myWeixinJSBridge.subscribe("doMapActionCallback", function(e, t) {
           var r = e.callbackId;
           "getMapCenterLocation" === e.method && r && "function" == typeof n[r] && (n[r]({
             longitude: e.longitude,
@@ -6817,13 +6817,13 @@ var Reporter = function(e) {
         o = arguments[4],
         i = arguments[5],
         a = (0, p.getPlatform)();
-      "ios" == a || "android" == a ? WeixinJSBridge.invoke("drawCanvas", {
+      "ios" == a || "android" == a ? myWeixinJSBridge.invoke("drawCanvas", {
         canvasId: e,
         reserve: n,
         actions: t
       }, function(e) {
         e.errMsg && /ok/.test(e.errMsg) ? "function" == typeof r && r(e) : "function" == typeof o && o(e), "function" == typeof i && i(e)
-      }) : WeixinJSBridge.publish("canvas" + e + "actionsChanged", {
+      }) : myWeixinJSBridge.publish("canvas" + e + "actionsChanged", {
         actions: t,
         reserve: n
       })
@@ -6853,7 +6853,7 @@ var Reporter = function(e) {
 
     function c(e) {
       var t = (0, p.getPlatform)();
-      "ios" === t || "android" === t ? (0, f.invokeMethod)("canvasToTempFilePath", e) : (WeixinJSBridge.subscribe("onCanvasToDataUrl_" + e.canvasId, function(t) {
+      "ios" === t || "android" === t ? (0, f.invokeMethod)("canvasToTempFilePath", e) : (myWeixinJSBridge.subscribe("onCanvasToDataUrl_" + e.canvasId, function(t) {
         var n = t.dataUrl;
         (0, f.invokeMethod)("base64ToTempFilePath", (0, p.assign)({
           base64Data: n
@@ -6890,7 +6890,7 @@ var Reporter = function(e) {
       v = {},
       g = {},
       y = {};
-    WeixinJSBridge.subscribe("canvasInsert", function(e, t) {
+    myWeixinJSBridge.subscribe("canvasInsert", function(e, t) {
       var n = e.canvasId,
         o = e.canvasNumber,
         i = e.data,
@@ -6901,7 +6901,7 @@ var Reporter = function(e) {
       }, g[u] = g[u] || o, Array.isArray(y[u]) && (y[u].forEach(function(e) {
         a(o, e.actions, e.reserve, e.success, e.fail, e.complete)
       }), delete y[u])
-    }), WeixinJSBridge.subscribe("canvasRemove", function(e, t) {
+    }), myWeixinJSBridge.subscribe("canvasRemove", function(e, t) {
       var n = e.canvasId,
         o = r(d, n);
       g[o] && delete g[o]
@@ -7301,16 +7301,16 @@ var Reporter = function(e) {
         n = e.eventName,
         r = e.data;
       return A(t, n, r)
-    }, "onWebviewEvent")), WeixinJSBridge.on("onPullDownRefresh", (0, c.surroundByTryCatch)(function(e, t) {
+    }, "onWebviewEvent")), myWeixinJSBridge.on("onPullDownRefresh", (0, c.surroundByTryCatch)(function(e, t) {
       P(t)
     }, "onPullDownRefresh"));
     var T = function(e, t) {
       var n = M(e, t);
-      WeixinJSBridge.invoke("shareAppMessage", n, function(e) {
+      myWeixinJSBridge.invoke("shareAppMessage", n, function(e) {
         /^shareAppMessage:ok/.test(e.errMsg) && "function" == typeof n.success ? n.success(e) : /^shareAppMessage:cancel/.test(e.errMsg) && "function" == typeof n.cancel ? n.cancel(e) : /^shareAppMessage:fail/.test(e.errMsg) && "function" == typeof n.fail && n.cancel(e), "function" == typeof n.complete && n.complete(e)
       })
     };
-    WeixinJSBridge.on("onShareAppMessage", (0, c.surroundByTryCatch)(T, "onShareAppMessage"));
+    myWeixinJSBridge.on("onShareAppMessage", (0, c.surroundByTryCatch)(T, "onShareAppMessage"));
     t.reset = function() {
       l = void 0, p = {}, h = {}, d = [], v = 0
     }, t.setWxConfig = function(e) {
@@ -7472,7 +7472,7 @@ var Reporter = function(e) {
             timestamp: Date.now()
           }
         };
-      e[1] ? e[1].options = c(e[1].options || {}, t.options) : e[1] = t, WeixinJSBridge.publish.apply(WeixinJSBridge, e)
+      e[1] ? e[1].options = c(e[1].options || {}, t.options) : e[1] = t, myWeixinJSBridge.publish.apply(myWeixinJSBridge, e)
     }
   }, function(e, t) {
     "use strict";
@@ -7593,7 +7593,7 @@ var Reporter = function(e) {
             }.bind(n) : n[e] = (0, l.default)(t[e]))
           };
           for (var s in t) c(s);
-          "function" == typeof t.onShareAppMessage && WeixinJSBridge.invoke("showShareMenu", {}, a.info)
+          "function" == typeof t.onShareAppMessage && myWeixinJSBridge.invoke("showShareMenu", {}, a.info)
         }
         return i(e, [{
           key: "update",
@@ -7855,7 +7855,7 @@ var Reporter = function(e) {
                 id: n,
                 value: u[e.eventID].data[n]
               })
-            }), u[e.eventID].data = t, console.log("reportRealtimeAction"), console.log(u[e.eventID]), WeixinJSBridge.invoke("reportRealtimeAction", {
+            }), u[e.eventID].data = t, console.log("reportRealtimeAction"), console.log(u[e.eventID]), myWeixinJSBridge.invoke("reportRealtimeAction", {
               actionData: JSON.stringify(u[e.eventID])
             }), u[e.eventID] = null
           }()
@@ -7880,12 +7880,12 @@ var Reporter = function(e) {
               element: e.element,
               action: e.action
             })
-          }), 0 !== r.length && WeixinJSBridge.publish("analyticsConfig", {
+          }), 0 !== r.length && myWeixinJSBridge.publish("analyticsConfig", {
             data: r
           }, [e.__wxWebviewId__]))
         }
       });
-    WeixinJSBridge.subscribe("analyticsReport", function(e, t) {
+    myWeixinJSBridge.subscribe("analyticsReport", function(e, t) {
       var n = e.data,
         o = a.click,
         s = void 0,

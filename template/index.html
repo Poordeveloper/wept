@@ -6,13 +6,10 @@
   <link rel="stylesheet" type="text/css" href="/css/index.css?v={{= _.version}}">
   <link rel="stylesheet" type="text/css" href="/css/app.css?v={{= _.version}}">
   <meta name="viewport" content="width=device-width, height=device-height,user-scalable=no, initial-scale=1.0" />
-  <script src="/script/recorder.js"></script>
 </head>
 <body>
-  <audio id="audio" type="audio/mp3" style="display:none;"></audio>
-  <audio id="background-audio" type="audio/mp3" style="display:none;"></audio>
   <div id="app"></div>
-  <div class="head">
+  <div class="head" style="display:none">
   </div>
   <div class="scrollable">
   </div>
@@ -22,7 +19,11 @@
     var __wxConfig__ = {{= _.config}}
     var __root__ = '{{= _.root}}'
     var __ip__ = '{{= _.ip}}'
+    var __wx_sign_url__ = '<__wx_sign_url__>' 
   </script>
+  <script src="/script/es6-shim.min.js"></script>
+  <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
   <script src="/script/build.js?v={{= _.version}}"></script>
+  <img src="/icon.png" style="position:absolute;left:-1000px">
 </body>
 </html>

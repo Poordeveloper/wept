@@ -1,4 +1,11 @@
-console.warn("WEPT 未检查安全域名，更多请参考文档：https://mp.weixin.qq.com/debug/wxadoc/dev/api/network-request.html")
+/*
+window.onerror = function(msg, url, line, col, error) {
+  var extra = !col ? '' : '\ncolumn: ' + col;
+  extra += !error ? '' : '\nerror: ' + error.stack;
+  alert('exception: ' + msg + '\nurl: ' + url + '\nline: ' + line + extra);
+}
+*/
+var Symbol = {};
 ! function(e, t) {
   if ("object" == typeof exports && "object" == typeof module) module.exports = t();
   else if ("function" == typeof define && define.amd) define([], t);
@@ -31,7 +38,7 @@ console.warn("WEPT 未检查安全域名，更多请参考文档：https://mp.we
       i = o(r),
       s = n(17),
       a = o(s);
-    (0, a["default"])(), window.MutationObserver = window.WebKitMutationObserver = window.File = void 0, window.WeixinJSBridge = i["default"]
+    (0, a["default"])(), window.MutationObserver = window.WebKitMutationObserver = window.File = void 0, window.myWeixinJSBridge = i["default"]
   }, function(e, t, n) {
     "use strict";
 
@@ -124,7 +131,7 @@ console.warn("WEPT 未检查安全域名，更多请参考文档：https://mp.we
         if (o && r) return n
       });
       console.group("showDebugInfo"), n.forEach(function(e) {
-        console.group(e.timesmap + " WeixinJSBridge " + e.type + " " + e.eventName), console.debug.apply(window, e.data), console.groupEnd()
+        console.group(e.timesmap + " myWeixinJSBridge " + e.type + " " + e.eventName), console.debug.apply(window, e.data), console.groupEnd()
       }), console.groupEnd(), s = !0
     }, window.closeDebug = function() {
       console.clear(), s = !1
@@ -442,7 +449,7 @@ console.warn("WEPT 未检查安全域名，更多请参考文档：https://mp.we
     }
 
     function r(e, t) {
-      s["default"].debugLog(new Date + " WeixinJSBridge on " + e, arguments), s["default"].debugInfo({
+      s["default"].debugLog(new Date + " myWeixinJSBridge on " + e, arguments), s["default"].debugInfo({
         type: "on",
         eventName: e,
         data: arguments,
@@ -489,10 +496,13 @@ console.warn("WEPT 未检查安全域名，更多请参考文档：https://mp.we
           i = !1,
           s = void 0;
         try {
+        /*
           for (var a, u = o[Symbol.iterator](); !(r = (a = u.next()).done); r = !0) {
             var c = a.value;
             c(t, n)
           }
+        */
+        o.forEach(function(c){c(t,n);});
         } catch (p) {
           i = !0, s = p
         } finally {
@@ -538,7 +548,7 @@ console.warn("WEPT 未检查安全域名，更多请参考文档：https://mp.we
     }
 
     function r(e, t) {
-      s["default"].debugLog(new Date + " WeixinJSBridge subscribe", arguments), s["default"].debugInfo({
+      s["default"].debugLog(new Date + " myWeixinJSBridge subscribe", arguments), s["default"].debugInfo({
         type: "subscribe",
         eventName: e,
         data: arguments,
@@ -566,7 +576,7 @@ console.warn("WEPT 未检查安全域名，更多请参考文档：https://mp.we
     }
 
     function r(e, t, n, o) {
-      if (s["default"].debugLog(new Date + " WeixinJSBridge publish " + e, arguments), t && 0 !== e.indexOf("canvas")) {
+      if (s["default"].debugLog(new Date + " myWeixinJSBridge publish " + e, arguments), t && 0 !== e.indexOf("canvas")) {
         var r = JSON.stringify(t),
           i = r.length;
         if (i > c.AppserviceMaxDataSize) return console.group(new Date + " 数据传输错误"), console.error(e + " 数据传输长度为 " + i + " 已经超过最大长度 " + c.AppserviceMaxDataSize), void console.groupEnd()
@@ -633,7 +643,7 @@ console.warn("WEPT 未检查安全域名，更多请参考文档：https://mp.we
     }
 
     function a(e, t, n) {
-      if (c["default"].debugLog(new Date + " WeixinJSBridge invoke " + e, arguments), !f["default"].check.apply(this, arguments)) {
+      if (c["default"].debugLog(new Date + " myWeixinJSBridge invoke " + e, arguments), !f["default"].check.apply(this, arguments)) {
         var o = (0, b.isLockSDK)(e),
           i = +new Date;
         if (!(o && i - S < 200) && (S = o ? i : 0, c["default"].debugInfo({
@@ -694,24 +704,28 @@ console.warn("WEPT 未检查安全域名，更多请参考文档：https://mp.we
       l = null,
       f = 0,
       d = function(e, t, n) {
+        /*
         if (f++, f > u.MaxRequestConcurrent) return f--, console.group(new Date + " wx.request 错误"), console.error("同时最多发起 " + u.MaxRequestConcurrent + " 个 wx.request 请求，更多请参考文档：https://mp.weixin.qq.com/debug/wxadoc/dev/api/network-request.html"), console.groupEnd(), void(n && n({
           errMsg: "request:fail"
         }));
+        */
         var o = t.url,
           r = t.header || {};
+        /*
         if (!(0, c.checkUrl)(o)) return f--, void(n && n({
           errMsg: "request:fail"
         }));
         if (!(0, a.checkTLS)(o)) return f--, void(n && n({
           errMsg: "request:fail 小程序要求的 TLS 版本必须大于等于 1.2"
         }));
+        */
         var s, l = new XMLHttpRequest,
           d = t.method || "POST",
           p = (t.complete, u.appconfig.networkTimeout && u.appconfig.networkTimeout.request);
-        var ms = t.url.match(/^https?:\/\/[^\/]+/)
-        var host = ms ? ms[0] : ''
-        var url = t.url.replace(host, '')
-        l.open(d, url, !0), l.onreadystatechange = function() {
+        //var ms = t.url.match(/^https?:\/\/[^\/]+/)
+        //var host = ms ? ms[0] : ''
+        //var url = t.url.replace(host, '')
+        l.open(d, t.url, !0), l.onreadystatechange = function() {
           if (3 == l.readyState, 4 == l.readyState) {
             l.onreadystatechange = null;
             var e = l.status;
@@ -741,17 +755,19 @@ console.warn("WEPT 未检查安全域名，更多请参考文档：https://mp.we
             errMsg: "request:fail"
           })
         };
-        if (host) l.setRequestHeader('X-Remote', host);
+        // if (host) l.setRequestHeader('X-Remote', host);
         var v = 0;
         for (var g in r) "content-type" === g.toLowerCase() && v++;
         v >= 2 && delete r["content-type"];
         var h = !1;
+        /*
         for (var _ in r)
           if (r.hasOwnProperty(_)) {
             var m = _.toLowerCase();
             h = "content-type" == m || h, "cookie" === m ? l.setRequestHeader("_Cookie", r[_]) : l.setRequestHeader(_, r[_])
           }
-          "POST" != d || h || l.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"), l.setRequestHeader("X-Requested-With", "XMLHttpRequest"), "number" == typeof p && (s = setTimeout(function() {
+        */
+          "POST" != d || h || /* l.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"), l.setRequestHeader("X-Requested-With", "XMLHttpRequest"), */ "number" == typeof p && (s = setTimeout(function() {
           l.abort("timeout"), t.complete && t.complete(), t.complete = null, f--, n && n({
             errMsg: "request:fail"
           })

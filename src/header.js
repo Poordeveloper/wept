@@ -24,6 +24,7 @@ class Header extends Component {
       back: false,
       sendText: false
     }
+    document.title = this.state.title
     Bus.on('route', this.reset.bind(this))
   }
   reset() {
@@ -64,6 +65,7 @@ class Header extends Component {
         back: curr.pid != null
       })
     }
+    setTimeout(() => document.title = this.state.title);
   }
   onBack(e) {
     e.preventDefault()
@@ -121,6 +123,7 @@ class Header extends Component {
     })
   }
   setTitle(title) {
+    document.title = title
     this.setState({title})
   }
   showLoading() {

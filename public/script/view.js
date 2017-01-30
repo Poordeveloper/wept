@@ -20,7 +20,7 @@ function _defineProperty(e, t, n) {
     writable: !0
   }) : e[t] = n, e
 }! function(e) {
-  if ("function" == typeof logxx && logxx("jsbridge start"), !e.WeixinJSBridge) {
+  if ("function" == typeof logxx && logxx("jsbridge start"), !e.myWeixinJSBridge) {
     if (e.navigator && e.navigator.userAgent) {
       var t = e.navigator.userAgent;
       if (t.indexOf("appservice") > -1 || t.indexOf("wechatdevtools") > -1) return
@@ -87,7 +87,7 @@ function _defineProperty(e, t, n) {
         var o;
         o = e.indexOf(s) != -1 ? l[e] : a[e], "function" == typeof o && o(t, n, i)
       };
-    e.WeixinJSBridge = {
+    e.myWeixinJSBridge = {
       invoke: h,
       invokeCallbackHandler: p,
       on: g,
@@ -111,13 +111,13 @@ var Reporter = function(e) {
     return t.m = e, t.c = n, t.p = "", t(0)
   }([function(e, t, n) {
     function i(e) {
-      "undefined" != typeof WeixinJSBridge ? e() : document.addEventListener("WeixinJSBridgeReady", e, !1)
+      "undefined" != typeof myWeixinJSBridge ? e() : document.addEventListener("myWeixinJSBridgeReady", e, !1)
     }
 
     function o() {
       var e = arguments;
       i(function() {
-        WeixinJSBridge.invoke.apply(WeixinJSBridge, e)
+        myWeixinJSBridge.invoke.apply(myWeixinJSBridge, e)
       })
     }
 
@@ -285,7 +285,7 @@ var Reporter = function(e) {
           if (u.ErrorType[t]) {
             var o = i ? n.message + ";" + i : n.message,
               l = t + "\n" + o + "\n" + n.stack;
-            if (console.error(l), "undefined" != typeof window && "undefined" != typeof window.__webviewId__ ? WeixinJSBridge.publish("WEBVIEW_ERROR_MSG", {
+            if (console.error(l), "undefined" != typeof window && "undefined" != typeof window.__webviewId__ ? myWeixinJSBridge.publish("WEBVIEW_ERROR_MSG", {
                 data: {
                   msg: l
                 },
@@ -583,20 +583,20 @@ var Reporter = function(e) {
     e.exports = u
   }, , , , , , , , , , , , , , , , function(e, t) {
     function n(e) {
-      "undefined" != typeof WeixinJSBridge ? e() : document.addEventListener("WeixinJSBridgeReady", e, !1)
+      "undefined" != typeof myWeixinJSBridge ? e() : document.addEventListener("myWeixinJSBridgeReady", e, !1)
     }
 
     function i() {
       var e = arguments;
       n(function() {
-        WeixinJSBridge.invoke.apply(WeixinJSBridge, e)
+        myWeixinJSBridge.invoke.apply(myWeixinJSBridge, e)
       })
     }
 
     function o() {
       var e = arguments;
       n(function() {
-        WeixinJSBridge.on.apply(WeixinJSBridge, e)
+        myWeixinJSBridge.on.apply(myWeixinJSBridge, e)
       })
     }
 
@@ -608,7 +608,7 @@ var Reporter = function(e) {
           timestamp: Date.now()
         }
       }, n(function() {
-        WeixinJSBridge.publish.apply(WeixinJSBridge, e)
+        myWeixinJSBridge.publish.apply(myWeixinJSBridge, e)
       })
     }
 
@@ -631,7 +631,7 @@ var Reporter = function(e) {
           }
         })
       }, n(function() {
-        WeixinJSBridge.subscribe.apply(WeixinJSBridge, e)
+        myWeixinJSBridge.subscribe.apply(myWeixinJSBridge, e)
       })
     }
 
@@ -1751,14 +1751,14 @@ var Reporter = function(e) {
 }(window),
 function(e) {
   function t(e) {
-    "undefined" != typeof WeixinJSBridge ? e() : document.addEventListener("WeixinJSBridgeReady", e, !1)
+    "undefined" != typeof myWeixinJSBridge ? e() : document.addEventListener("myWeixinJSBridgeReady", e, !1)
   }
   t(function() {
-    WeixinJSBridge.subscribe("onAppRouteDone", function() {
+    myWeixinJSBridge.subscribe("onAppRouteDone", function() {
       window.__onAppRouteDone = !0, exparser.triggerEvent(document, "routeDone", {}, {
         bubbles: !0
       }), document.dispatchEvent(new CustomEvent("pageReRender", {}))
-    }), WeixinJSBridge.subscribe("setKeyboardValue", function(e) {
+    }), myWeixinJSBridge.subscribe("setKeyboardValue", function(e) {
       e && e.data && exparser.triggerEvent(document, "setKeyboardValue", {
         value: e.data.value,
         cursor: e.data.cursor,
@@ -1766,25 +1766,25 @@ function(e) {
       }, {
         bubbles: !0
       })
-    }), WeixinJSBridge.subscribe("hideKeyboard", function(e) {
+    }), myWeixinJSBridge.subscribe("hideKeyboard", function(e) {
       exparser.triggerEvent(document, "hideKeyboard", {}, {
         bubbles: !0
       })
-    }), WeixinJSBridge.on("onKeyboardComplete", function(e) {
+    }), myWeixinJSBridge.on("onKeyboardComplete", function(e) {
       exparser.triggerEvent(document, "onKeyboardComplete", {
         value: e.value,
         inputId: e.inputId
       }, {
         bubbles: !0
       })
-    }), WeixinJSBridge.on("onKeyboardConfirm", function(e) {
+    }), myWeixinJSBridge.on("onKeyboardConfirm", function(e) {
       exparser.triggerEvent(document, "onKeyboardConfirm", {
         value: e.value,
         inputId: e.inputId
       }, {
         bubbles: !0
       })
-    }), WeixinJSBridge.on("onTextAreaHeightChange", function(e) {
+    }), myWeixinJSBridge.on("onTextAreaHeightChange", function(e) {
       exparser.triggerEvent(document, "onTextAreaHeightChange", {
         height: e.height,
         lineCount: e.lineCount,
@@ -1792,7 +1792,7 @@ function(e) {
       }, {
         bubbles: !0
       })
-    }), WeixinJSBridge.on("onKeyboardShow", function(e) {
+    }), myWeixinJSBridge.on("onKeyboardShow", function(e) {
       exparser.triggerEvent(document, "onKeyboardShow", {
         inputId: e.inputId
       }, {
@@ -1824,7 +1824,7 @@ function(e) {
 }(window),
 function(e) {
   function t(e) {
-    "undefined" != typeof WeixinJSBridge ? e() : document.addEventListener("WeixinJSBridgeReady", e, !1)
+    "undefined" != typeof myWeixinJSBridge ? e() : document.addEventListener("myWeixinJSBridgeReady", e, !1)
   }
   var n = function(e, t, n) {
       exparser.triggerEvent(e.target, t, n, {
@@ -1960,7 +1960,7 @@ function(e) {
             time: Date.now()
           };
           0 === n.indexOf(".") && (r.index = Array.prototype.indexOf.call(document.body.querySelectorAll(o.element), e)), t(function() {
-            WeixinJSBridge.publish("analyticsReport", {
+            myWeixinJSBridge.publish("analyticsReport", {
               data: r
             })
           });
@@ -1969,7 +1969,7 @@ function(e) {
       }
     };
   t(function() {
-    WeixinJSBridge.subscribe("analyticsConfig", function(e) {
+    myWeixinJSBridge.subscribe("analyticsConfig", function(e) {
       "[object Array]" === Object.prototype.toString.call(e.data) && (A.data = e.data, A.selector = [], A.data.forEach(function(e) {
         e.element && A.selector.push(e.element)
       }))
@@ -2684,9 +2684,9 @@ function(e) {
       }
     }, this.$.fakebutton.onclick = function(e) {
       e.stopPropagation(), n.action && "function" == typeof t[n.action.method] && t[n.action.method]()
-    }, WeixinJSBridge.subscribe("audio_" + this.id + "_actionChanged", function(t) {
+    }, myWeixinJSBridge.subscribe("audio_" + this.id + "_actionChanged", function(t) {
       e.action = t
-    }), WeixinJSBridge.publish("audioInsert", {
+    }), myWeixinJSBridge.publish("audioInsert", {
       audioId: this.id
     }), wx.onAppEnterBackground(function(t) {
       e.$.player.pause(), e.isBackground = !0
@@ -2835,7 +2835,7 @@ window.exparser.registerElement({
     }
   },
   _updatePosition: function() {
-    this.$.canvas.width = this._box.width, this.$.canvas.height = this._box.height, this._isMobile() ? WeixinJSBridge.invoke("updateCanvas", {
+    this.$.canvas.width = this._box.width, this.$.canvas.height = this._box.height, this._isMobile() ? myWeixinJSBridge.invoke("updateCanvas", {
       canvasId: this._canvasNumber,
       position: this._box
     }, function(e) {}) : this.actionsChanged(this.actions)
@@ -2864,7 +2864,7 @@ window.exparser.registerElement({
         i = !1;
       touchEventNames.forEach(function(t) {
         e["bind" + t] && (n[touchEventMap[t]] = e["bind" + t], i = !0)
-      }), WeixinJSBridge.invoke("insertCanvas", {
+      }), myWeixinJSBridge.invoke("insertCanvas", {
         data: JSON.stringify({
           type: "canvas",
           webviewId: window.__webviewId__,
@@ -2876,31 +2876,31 @@ window.exparser.registerElement({
         hide: e.hidden,
         disableScroll: e.disableScroll
       }, function(e) {
-        WeixinJSBridge.publish("canvasInsert", {
+        myWeixinJSBridge.publish("canvasInsert", {
           canvasId: t.canvasId,
           canvasNumber: t._canvasNumber,
           data: n
         }), t._ready(), document.addEventListener("pageReRender", t._pageReRenderCallback.bind(t))
       })
-    }() : (WeixinJSBridge.publish("canvasInsert", {
+    }() : (myWeixinJSBridge.publish("canvasInsert", {
       canvasId: t.canvasId,
       canvasNumber: t._canvasNumber
-    }), WeixinJSBridge.subscribe("canvas" + t._canvasNumber + "actionsChanged", function(e) {
+    }), myWeixinJSBridge.subscribe("canvas" + t._canvasNumber + "actionsChanged", function(e) {
       var n = e.actions,
         i = e.reserve;
       t.actions = n, t.actionsChanged(n, i)
-    }), WeixinJSBridge.subscribe("invokeCanvasToDataUrl_" + e._canvasNumber, function() {
+    }), myWeixinJSBridge.subscribe("invokeCanvasToDataUrl_" + e._canvasNumber, function() {
       var t = e.$.canvas.toDataURL();
-      WeixinJSBridge.publish("onCanvasToDataUrl_" + e._canvasNumber, {
+      myWeixinJSBridge.publish("onCanvasToDataUrl_" + e._canvasNumber, {
         dataUrl: t
       })
     }), t._ready(), document.addEventListener("pageReRender", t._pageReRenderCallback.bind(t)), this.addTouchEventForWebview())))
   },
   detached: function() {
     var e = __webviewId__ + "canvas" + this.canvasId;
-    delete window.__canvasNumbers__[e], this._isMobile() && WeixinJSBridge.invoke("removeCanvas", {
+    delete window.__canvasNumbers__[e], this._isMobile() && myWeixinJSBridge.invoke("removeCanvas", {
       canvasId: this._canvasNumber
-    }, function(e) {}), WeixinJSBridge.publish("canvasRemove", {
+    }, function(e) {}), myWeixinJSBridge.publish("canvasRemove", {
       canvasId: this.canvasId,
       canvasNumber: this._canvasNumber
     })
@@ -3013,13 +3013,13 @@ window.exparser.registerElement({
     }
   },
   _hiddenChanged: function(e, t) {
-    this._isMobile() ? (this.$$.style.display = e ? "none" : "", WeixinJSBridge.invoke("updateCanvas", {
+    this._isMobile() ? (this.$$.style.display = e ? "none" : "", myWeixinJSBridge.invoke("updateCanvas", {
       canvasId: this._canvasNumber,
       hide: e
     }, function(e) {})) : this.$$.style.display = e ? "none" : ""
   },
   disableScrollChanged: function(e, t) {
-    this._isMobile() && WeixinJSBridge.invoke("updateCanvas", {
+    this._isMobile() && myWeixinJSBridge.invoke("updateCanvas", {
       canvasId: this._canvasNumber,
       disableScroll: e
     }, function(e) {})
@@ -3222,7 +3222,7 @@ window.exparser.registerElement({
           value: t._data,
           formId: "the formId is a mock one",
           target: n
-        }) : WeixinJSBridge.invoke("reportSubmitForm", {}, function(e) {
+        }) : myWeixinJSBridge.invoke("reportSubmitForm", {}, function(e) {
           t.triggerEvent("submit", {
             value: t._data,
             formId: e.formId,
@@ -3264,6 +3264,28 @@ window.exparser.registerElement({
         public: !0
       }
     }
+  }), window.exparser.registerElement({
+    is: "wx-a",
+    template: '<a class$="{{class}}" style$="{{style}}" href$="{{href}}" target$="{{target}}"><slot></slot></a>',
+    behaviors: ["wx-base"],
+    properties: {
+      style: {
+        type: String,
+        public: !0,
+      },
+      class: {
+        type: String,
+        public: !0,
+      },
+      href: {
+        type: String,
+        public: !0
+      },
+      target: {
+        type: String,
+        public: !0
+      },
+    },
   }), window.exparser.registerElement({
     is: "wx-image",
     template: '<div id="div"></div>',
@@ -3583,7 +3605,7 @@ window.exparser.registerElement({
             offsetTop: this.$$.offsetTop,
             offsetLeft: this.$$.offsetLeft
           };
-          WeixinJSBridge.publish("SPECIAL_PAGE_EVENT", {
+          myWeixinJSBridge.publish("SPECIAL_PAGE_EVENT", {
             eventName: this.bindinput,
             data: {
               ext: {
@@ -3844,7 +3866,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       }), !this._keyboardShow && (this._showNativeInput(), !1))
     },
     defaultValueChange: function(e, t) {
-      return this.maxlength > 0 && (e = e.slice(0, this.maxlength)), this._inputId && this._keyboardShow ? WeixinJSBridge.invoke("updateInput", {
+      return this.maxlength > 0 && (e = e.slice(0, this.maxlength)), this._inputId && this._keyboardShow ? myWeixinJSBridge.invoke("updateInput", {
         value: e || "",
         inputId: this._inputId,
         confirmHold: this.confirmHold
@@ -3852,7 +3874,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
     },
     _showNativeInput: function(e) {
       var t = this;
-      this.inputArgs = this.getCurrentInputArgs(), this.inputArgs.defaultValue = this.value, WeixinJSBridge.invoke("showKeyboard", this.inputArgs, function(e) {
+      this.inputArgs = this.getCurrentInputArgs(), this.inputArgs.defaultValue = this.value, myWeixinJSBridge.invoke("showKeyboard", this.inputArgs, function(e) {
         /:ok/.test(e.errMsg) ? (t._inputId = e.inputId, t._keyboardShow = !0, t.showValue = " ") : console.info(e.errMsg)
       })
     },
@@ -3879,7 +3901,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       if (this._keyboardShow) {
         var e = this.getCurrentInputArgs(),
           t = this._diff(this.inputArgs, e);
-        t && (this.inputArgs = e, t.inputId = this._inputId, WeixinJSBridge.invoke("updateInput", t, function(e) {}));
+        t && (this.inputArgs = e, t.inputId = this._inputId, myWeixinJSBridge.invoke("updateInput", t, function(e) {}));
       }
     },
     getCurrentInputArgs: function() {
@@ -4003,15 +4025,19 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
 };
 ! function() {
   "wechatdevtools" === wx.getPlatform() && (window.addEventListener("DOMContentLoaded", function() {
+  /*
     if (window.parent.__wxConfig__.nomap) return
     var e = document.createElement("script");
     e.async = true;
     e.type = "text/javascript", e.src = "https://map.qq.com/api/js?v=2.exp&callback=__map_jssdk_init", document.body.appendChild(e)
-  }), window.__map_jssdk_id = 0, window.__map_jssdk_ready = !1, window.__map_jssdk_callback = [], window.__map_jssdk_init = function() {
+  */
+  }), window.__map_jssdk_id = 0, window.__map_jssdk_ready = !0, window.__map_jssdk_callback = [], window.__map_jssdk_init = function() {
+  /*
     for (__map_jssdk_ready = !0; __map_jssdk_callback.length;) {
       var e = __map_jssdk_callback.pop();
       e()
     }
+  */
   })
 }(), window.exparser.registerElement({
     is: "wx-map",
@@ -4109,10 +4135,10 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       })
     },
     _update: function(e, t) {
-      e.mapId = this._mapId, e.hide = this.hidden, WeixinJSBridge.invoke("updateMap", e, function(e) {})
+      e.mapId = this._mapId, e.hide = this.hidden, myWeixinJSBridge.invoke("updateMap", e, function(e) {})
     },
     _updatePosition: function() {
-      this._isMobile() && (this._isiOS() && (this._box.width = this._box.width || 1, this._box.height = this._box.height || 1), WeixinJSBridge.invoke("updateMap", {
+      this._isMobile() && (this._isiOS() && (this._box.width = this._box.width || 1, this._box.height = this._box.height || 1), myWeixinJSBridge.invoke("updateMap", {
         mapId: this._mapId,
         position: this._box,
         covers: this.covers || []
@@ -4127,7 +4153,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       })
     },
     _hiddenChanged: function(e, t) {
-      this._isMobile() ? (this.$$.style.display = e ? "none" : "", WeixinJSBridge.invoke("updateMap", {
+      this._isMobile() ? (this.$$.style.display = e ? "none" : "", myWeixinJSBridge.invoke("updateMap", {
         mapId: this._mapId,
         hide: e
       }, function(e) {})) : this.$$.style.display = e ? "none" : ""
@@ -4165,19 +4191,19 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       return new qq.maps.Color(t, n, i, o)
     },
     _initFeatures: function() {
-      this._mapId && ((this.markers && this.markers.length > 0 || this.covers && this.covers.length > 0) && WeixinJSBridge.invoke("addMapMarkers", {
+      this._mapId && ((this.markers && this.markers.length > 0 || this.covers && this.covers.length > 0) && myWeixinJSBridge.invoke("addMapMarkers", {
         mapId: this._mapId,
         markers: this._transformMarkers(this.markers).concat(this.covers)
-      }, function(e) {}), this.includePoints && this.includePoints.length > 0 && WeixinJSBridge.invoke("includeMapPoints", {
+      }, function(e) {}), this.includePoints && this.includePoints.length > 0 && myWeixinJSBridge.invoke("includeMapPoints", {
         mapId: this._mapId,
         points: this.includePoints
-      }, function(e) {}), this.polyline && this.polyline.length > 0 && WeixinJSBridge.invoke("addMapLines", {
+      }, function(e) {}), this.polyline && this.polyline.length > 0 && myWeixinJSBridge.invoke("addMapLines", {
         mapId: this._mapId,
         lines: this.polyline
-      }, function(e) {}), this.circles && this.circles.length > 0 && WeixinJSBridge.invoke("addMapCircles", {
+      }, function(e) {}), this.circles && this.circles.length > 0 && myWeixinJSBridge.invoke("addMapCircles", {
         mapId: this._mapId,
         circles: this.circles
-      }, function(e) {}), this.controls && this.controls.length > 0 && WeixinJSBridge.invoke("addMapControls", {
+      }, function(e) {}), this.controls && this.controls.length > 0 && myWeixinJSBridge.invoke("addMapControls", {
         mapId: this._mapId,
         controls: this._transformControls(this.controls)
       }, function(e) {}))
@@ -4194,8 +4220,8 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
         hide: this.hidden,
         showLocation: this.showLocation
       };
-      this._canInvokeNewFeature || (t.markers = this.markers || []), WeixinJSBridge.invoke("insertMap", t, function(t) {
-        /ok/.test(t.errMsg) ? (e._mapId = t.mapId, e._ready(), e._canInvokeNewFeature && WeixinJSBridge.publish("mapInsert", {
+      this._canInvokeNewFeature || (t.markers = this.markers || []), myWeixinJSBridge.invoke("insertMap", t, function(t) {
+        /ok/.test(t.errMsg) ? (e._mapId = t.mapId, e._ready(), e._canInvokeNewFeature && myWeixinJSBridge.publish("mapInsert", {
           domId: e.id,
           mapId: e._mapId,
           showLocation: e.showLocation,
@@ -4207,6 +4233,54 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       })
     },
     _insertIframeMap: function() {
+      var self = this;
+      var onload_ = function() {
+        var options = {
+          center: new GeoPoint(self.longitude, self.latitude),
+          zoom: self.scale || 12,
+          // enableDefaultLogo: false,
+			    showCopyright: false,
+        };
+        var t = self._map = new SD.genmap.Map(self.$.map, options);
+        var navControl = new MediumMapControl();
+        t.addControl(navControl);
+        ['OnEndDrag', 'OnEndMove', 'OnEndWheel', 'OnLevelChanged', 'OnDoubleClick'].forEach(function(event){t.viewport[event].register(function() {
+          var c = t.getCenter();
+          self.bindregionchange && wx.publishPageEvent(self.bindregionchange, { type: event, lat: c.lat, lon: c.lon });
+        })});
+        EventManager.add(t, 'click', function(e) {
+          self.bindtap && wx.publishPageEvent(self.bindtap, e);
+        });
+        (self.markers || []).forEach(function(m) {
+          var image = new SD.genmap.MarkerImage({
+			      image: m.iconPath,
+			      title: m.title || '',
+			      iconSize: new Size(m.width, m.height),
+		      });
+		      var markerManager = new SD.genmap.MarkerStaticManager({
+			      map: t 
+		      });
+		      var marker = markerManager.add({
+			      position: new GeoPoint(m.longitude, m.latitude),
+			      map: t,
+			      icon: image
+          });
+          marker.setOffset(new Point(0, m.height));
+        });
+      }
+      var onload = function() {
+        setTimeout(onload_, 100);
+      };
+      if (typeof SD === 'undefined') {
+        var url = '//www.streetdirectory.com/js/map_api/m.php';
+        var scriptTag = document.createElement('script');
+        scriptTag.type = 'text/javascript';
+        scriptTag.src = url;
+        scriptTag.onload = onload;
+        document.body.appendChild(scriptTag);
+      } else
+        onload();
+    /*
       var e = this,
         t = this._map = new qq.maps.Map(this.$.map, {
           zoom: this.scale,
@@ -4231,18 +4305,18 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
         }), i = !1)
       });
       var o = qq.maps.event.addListener(t, "tilesloaded", function() {
-          e._mapId = __map_jssdk_id++, e._ready(), WeixinJSBridge.subscribe("doMapAction" + e._mapId, function(t) {
+          e._mapId = __map_jssdk_id++, e._ready(), myWeixinJSBridge.subscribe("doMapAction" + e._mapId, function(t) {
             if (e._map && e._mapId === t.data.mapId)
               if ("getMapCenterLocation" === t.data.method) {
                 var n = e._map.getCenter();
-                WeixinJSBridge.publish("doMapActionCallback", {
+                myWeixinJSBridge.publish("doMapActionCallback", {
                   mapId: e._mapId,
                   callbackId: t.data.callbackId,
                   method: t.data.method,
                   latitude: n.getLat(),
                   longitude: n.getLng()
                 })
-              } else "moveToMapLocation" === t.data.method && e.showLocation && WeixinJSBridge.invoke("private_geolocation", {}, function(t) {
+              } else "moveToMapLocation" === t.data.method && e.showLocation && myWeixinJSBridge.invoke("private_geolocation", {}, function(t) {
                 try {
                   t = JSON.parse(t)
                 } catch (e) {
@@ -4253,7 +4327,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
                   e._posOverlay && e._posOverlay.setMap(null), e._posOverlay = new e.CustomOverlay(new qq.maps.LatLng(n.lat, n.lng)), e._posOverlay.setMap(e._map), e._map.panTo(new qq.maps.LatLng(n.lat, n.lng))
                 }
               })
-          }), WeixinJSBridge.publish("mapInsert", {
+          }), myWeixinJSBridge.publish("mapInsert", {
             domId: e.id,
             mapId: e._mapId,
             showLocation: e.showLocation,
@@ -4281,6 +4355,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       }, r.prototype.destroy = function() {
         this.div.onclick = null, this.div.parentNode.removeChild(this.div), this.div = null
       }
+    */
     },
     latitudeChanged: function(e, t) {
       if (e) return this._isReady ? void(this._isMobile() ? this._update({
@@ -4332,7 +4407,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       return this._isReady ? void(this._isMobile() ? wx.getCurrentRoute({
         success: function(n) {
           var i = e._transformPath(e._transformMarkers(t), n.route);
-          e._canInvokeNewFeature ? WeixinJSBridge.invoke("addMapMarkers", {
+          e._canInvokeNewFeature ? myWeixinJSBridge.invoke("addMapMarkers", {
             mapId: e._mapId,
             markers: i
           }, function(e) {}) : e._update({
@@ -4362,7 +4437,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       var e = this,
         t = arguments.length <= 0 || void 0 === arguments[0] ? [] : arguments[0],
         n = arguments[1];
-      return this._isReady ? void(this._isMobile() ? this._canInvokeNewFeature && WeixinJSBridge.invoke("addMapLines", {
+      return this._isReady ? void(this._isMobile() ? this._canInvokeNewFeature && myWeixinJSBridge.invoke("addMapLines", {
         mapId: this._mapId,
         lines: t
       }, function(e) {}) : ((this._lines || []).forEach(function(e) {
@@ -4384,7 +4459,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       var e = this,
         t = arguments.length <= 0 || void 0 === arguments[0] ? [] : arguments[0],
         n = arguments[1];
-      return this._isReady ? void(this._isMobile() ? this._canInvokeNewFeature && WeixinJSBridge.invoke("addMapCircles", {
+      return this._isReady ? void(this._isMobile() ? this._canInvokeNewFeature && myWeixinJSBridge.invoke("addMapCircles", {
         mapId: this._mapId,
         circles: t
       }, function(e) {}) : ((this._circles || []).forEach(function(e) {
@@ -4405,7 +4480,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
         t = arguments.length <= 0 || void 0 === arguments[0] ? [] : arguments[0],
         n = arguments[1];
       if (!this._isReady) return void this._delay("pointsChanged", t, n);
-      if (this._isMobile()) this._canInvokeNewFeature && WeixinJSBridge.invoke("includeMapPoints", {
+      if (this._isMobile()) this._canInvokeNewFeature && myWeixinJSBridge.invoke("includeMapPoints", {
         mapId: this._mapId,
         points: t
       }, function(e) {});
@@ -4429,7 +4504,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       return this._isReady ? void(this._isMobile() ? this._canInvokeNewFeature && wx.getCurrentRoute({
         success: function(n) {
           var i = e._transformPath(e._transformControls(t), n.route);
-          WeixinJSBridge.invoke("addMapControls", {
+          myWeixinJSBridge.invoke("addMapControls", {
             mapId: e._mapId,
             controls: i
           }, function(e) {})
@@ -4455,7 +4530,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
         n = arguments[1];
       return this._isReady ? void(this._isMobile() ? this._update({
         showLocation: t
-      }) : (this._posOverlay && (this._posOverlay.setMap(null), this._posOverlay = null), t && WeixinJSBridge.invoke("private_geolocation", {}, function(t) {
+      }) : (this._posOverlay && (this._posOverlay.setMap(null), this._posOverlay = null), t && myWeixinJSBridge.invoke("private_geolocation", {}, function(t) {
         try {
           t = JSON.parse(t)
         } catch (e) {
@@ -4471,7 +4546,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       return this.latitude > 90 || this.latitude < -90 ? (console.group(new Date + " latitude 字段取值有误"), console.warn("纬度范围 -90 ~ 90"), void console.groupEnd()) : this.longitude > 180 || this.longitude < -180 ? (console.group(new Date + " longitude 字段取值有误"), console.warn("经度范围 -180 ~ 180"), void console.groupEnd()) : (this._canInvokeNewFeature = !0, this._box = this._getBox(), void(this._isMobile() ? this._insertNativeMap() : __map_jssdk_ready ? this._insertIframeMap() : __map_jssdk_callback.push(this._insertIframeMap.bind(this))))
     },
     detached: function() {
-      this._isMobile() && (WeixinJSBridge.invoke("removeMap", {
+      this._isMobile() && (myWeixinJSBridge.invoke("removeMap", {
         mapId: this._mapId
       }, function(e) {}), this.__pageReRenderCallback && document.removeEventListener("pageReRender", this.__pageReRenderCallback))
     }
@@ -4675,7 +4750,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
             i.push(r[this.rangeKey] + "")
           } else
             for (var o = 0; o < this.range.length; o++) i.push(this.range[o] + "");
-        WeixinJSBridge.invoke("showPickerView", {
+        myWeixinJSBridge.invoke("showPickerView", {
           array: i,
           current: n,
           style: this.getCustomerStyle()
@@ -4688,7 +4763,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
     },
     showDatePickerView: function() {
       var e = this;
-      this.disabled || (WeixinJSBridge.invoke("showDatePickerView", {
+      this.disabled || (myWeixinJSBridge.invoke("showDatePickerView", {
         range: {
           start: this.start,
           end: this.end
@@ -4696,7 +4771,8 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
         mode: this.mode,
         current: this.value,
         fields: this.fields,
-        style: this.getCustomerStyle()
+        style: this.getCustomerStyle(),
+        dataset: this.dataset,
       }, function(t) {
         /:ok/.test(t.errMsg) && (e.value = t.value, e.triggerEvent("change", {
           value: e.value
@@ -5258,13 +5334,13 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
           i = e.$.main;
         e.__touchStartY < n ? i.scrollTop > 0 && t.stopPropagation() : i.scrollHeight > i.offsetHeight + i.scrollTop && t.stopPropagation()
       }, this.__handleTouchStart = function(t) {
-        e.__touchStartY = t.touches[0].pageY, WeixinJSBridge.invoke("disableScrollBounce", {
+        e.__touchStartY = t.touches[0].pageY, myWeixinJSBridge.invoke("disableScrollBounce", {
           disable: !0
         }, function() {});
         var n = e.$.main;
         e._touchScrollTop = e.$.main.scrollTop, e._touchScrollLeft = e.$.main.scrollLeft, e._touchScrollBottom = e._touchScrollTop + n.offsetHeight === n.scrollHeight, e._touchScrollRight = e._touchScrollLeft + n.offsetWidth === n.scrollWidth
       }, this.__handleTouchEnd = function() {
-        WeixinJSBridge.invoke("disableScrollBounce", {
+        myWeixinJSBridge.invoke("disableScrollBounce", {
           disable: !1
         }, function() {})
       }, this.$.main.addEventListener("touchstart", this.__handleTouchStart), this.$.main.addEventListener("touchmove", this.__handleTouchMove), this.$.main.addEventListener("touchend", this.__handleTouchEnd), this.$.main.addEventListener("scroll", this.__handleScroll), this.$.main.style.overflowX = this.scrollX ? "auto" : "hidden", this.$.main.style.overflowY = this.scrollY ? "auto" : "hidden";
@@ -5953,7 +6029,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
           offsetTop: this.$$.offsetTop,
           offsetLeft: this.$$.offsetLeft
         };
-        WeixinJSBridge.publish("SPECIAL_PAGE_EVENT", {
+        myWeixinJSBridge.publish("SPECIAL_PAGE_EVENT", {
           eventName: this.bindinput,
           ext: {
             setKeyboardValue: !1
@@ -6137,7 +6213,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       this.__detached = !0, document.removeEventListener("pageReRender", this.__reRenderCallback, !1), exparser.removeListenerFromElement(document, "onKeyboardShow", this.__onKeyboardShowId), exparser.removeListenerFromElement(document, "onKeyboardComplete", this.__onKeyboardCompleteId), exparser.removeListenerFromElement(document, "onTextAreaHeightChange", this.__onTextAreaHeightChangeId), exparser.removeListenerFromElement(document, "routeDone", this.__routeDoneId), exparser.removeListenerFromElement(document, "onKeyboardConfirm", this.__onKeyboardConfirmId), this.removeTextArea()
     },
     removeTextArea: function() {
-      this.__detached && this._inputId && WeixinJSBridge.invoke("removeTextArea", {
+      this.__detached && this._inputId && myWeixinJSBridge.invoke("removeTextArea", {
         inputId: this._inputId
       }, function(e) {})
     },
@@ -6148,7 +6224,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       this.__autoFocused || window.__onAppRouteDone && (this.__autoFocused = !0, this.couldFocus(this.autoFocus || this.focus))
     },
     couldFocus: function(e) {
-      this._isReady && window.__onAppRouteDone && (!this._keyboardShow && e ? this.hidden || this.disabled || !this._inputId || WeixinJSBridge.invoke("showKeyboard", {
+      this._isReady && window.__onAppRouteDone && (!this._keyboardShow && e ? this.hidden || this.disabled || !this._inputId || myWeixinJSBridge.invoke("showKeyboard", {
         inputId: this._inputId
       }, function(e) {}) : this._keyboardShow && !e && wx.hideKeyboard())
     },
@@ -6232,7 +6308,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
     },
     insertTextArea: function() {
       var e = this;
-      this.args = this.getCurrrentArgs(), this.args.value = this.value, WeixinJSBridge.invoke("insertTextArea", this.args, function(t) {
+      this.args = this.getCurrrentArgs(), this.args.value = this.value, myWeixinJSBridge.invoke("insertTextArea", this.args, function(t) {
         if (/:ok/.test(t.errMsg)) {
           if (e._ready(), e._inputId = t.inputId, e.__detached && e.removeTextArea(), e.checkAutoFocus(), e._isiOS() && (e.triggerEvent("linechange", {
               lineCount: t.lineCount,
@@ -6283,7 +6359,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       if (!this._isReady) return void(this._needUpdate = !0);
       this.autoHeight && this.styleHeight && (this.$$.style.height = this.styleHeight + "px");
       var n = this.diff(this.args, e);
-      n && (n.inputId = this._inputId, WeixinJSBridge.invoke("updateTextArea", n, function(n) {
+      n && (n.inputId = this._inputId, myWeixinJSBridge.invoke("updateTextArea", n, function(n) {
         if (/:ok/.test(n.errMsg))
           for (var i in e) t.args[i] = e[i]
       }))
@@ -6575,7 +6651,7 @@ var _slicedToArray = function() {
   attached: function() {
     var e = this,
       t = this;
-    WeixinJSBridge.publish("videoPlayerInsert", {
+    myWeixinJSBridge.publish("videoPlayerInsert", {
       domId: this.id,
       videoPlayerId: 0
     }), this.$.default.style.display = "", this.$.player.style.display = "", this.$.player.autoplay = this.autoplay, this.$.player.style.objectFit = this.objectFit, console.log("attached", this.objectFit), this.danmuObject = this.danmuList.reduce(function(e, t) {
@@ -6600,7 +6676,7 @@ var _slicedToArray = function() {
       e.stopPropagation(), t.enableDanmu = !t.enableDanmu, t.triggerEvent("toggledanmu", {
         enable: t.enableDanmu
       })
-    }, WeixinJSBridge.subscribe("video_" + this.id + "_actionChanged", function(t) {
+    }, myWeixinJSBridge.subscribe("video_" + this.id + "_actionChanged", function(t) {
       e.action = t, e.actionChanged(t)
     })
   },
@@ -6780,7 +6856,7 @@ var _slicedToArray = function() {
         t = this;
       e.videoPlayerId = this._videoId, e.hide = this.hidden;
       var n = this._getData();
-      e.needEvent = Object.keys(n.handlers).length > 0, e.objectFit = this.objectFit, e.showBasicControls = this.controls, e.showDanmuBtn = this.danmuBtn, e.enableDanmu = this.enableDanmu, e.data = JSON.stringify(n), this.duration > 0 && (e.duration = this.duration), WeixinJSBridge.invoke("updateVideoPlayer", e, function(e) {
+      e.needEvent = Object.keys(n.handlers).length > 0, e.objectFit = this.objectFit, e.showBasicControls = this.controls, e.showDanmuBtn = this.danmuBtn, e.enableDanmu = this.enableDanmu, e.data = JSON.stringify(n), this.duration > 0 && (e.duration = this.duration), myWeixinJSBridge.invoke("updateVideoPlayer", e, function(e) {
         /ok/.test(e.errMsg) || t._publish("error", {
           errMsg: e.errMsg
         })
@@ -6929,15 +7005,15 @@ var _slicedToArray = function() {
             autoplay: this.autoplay,
             danmuList: this.danmuList
           };
-        this.duration > 0 && (i.duration = this.duration), WeixinJSBridge.invoke("insertVideoPlayer", i, function(e) {
-          /ok/.test(e.errMsg) ? (t._videoId = e.videoPlayerId, t._ready(), t.createdTimestamp = Date.now(), document.addEventListener("pageReRender", t._pageReRenderCallback.bind(t)), WeixinJSBridge.publish("videoPlayerInsert", {
+        this.duration > 0 && (i.duration = this.duration), myWeixinJSBridge.invoke("insertVideoPlayer", i, function(e) {
+          /ok/.test(e.errMsg) ? (t._videoId = e.videoPlayerId, t._ready(), t.createdTimestamp = Date.now(), document.addEventListener("pageReRender", t._pageReRenderCallback.bind(t)), myWeixinJSBridge.publish("videoPlayerInsert", {
             domId: t.id,
             videoPlayerId: e.videoPlayerId
           })) : (t._isError = !0, t.$$.style.display = "none", t._publish("error", {
             errMsg: e.errMsg
           }))
         })
-      } else WeixinJSBridge.publish("videoPlayerInsert", {
+      } else myWeixinJSBridge.publish("videoPlayerInsert", {
         domId: this.id,
         videoPlayerId: 0
       }), this.$.default.style.display = "", this.$.player.style.display = "", this.$.player.autoplay = this.autoplay, this.danmuObject = this.danmuList.reduce(function(e, t) {
@@ -6963,7 +7039,7 @@ var _slicedToArray = function() {
           enable: t.enableDanmu
         })
       }, this._ready(), document.addEventListener("pageReRender", this._pageReRenderCallback.bind(this));
-      WeixinJSBridge.subscribe("video_" + this.id + "_actionChanged", function(t) {
+      myWeixinJSBridge.subscribe("video_" + this.id + "_actionChanged", function(t) {
         e.action = t, e.actionChanged(t)
       })
     },
@@ -6987,7 +7063,7 @@ var _slicedToArray = function() {
       this._isiOS() && wx.removeVideoPlayer({
         videoPlayerId: this._videoId,
         success: function(e) {}
-      }), WeixinJSBridge.publish("videoPlayerRemoved", {
+      }), myWeixinJSBridge.publish("videoPlayerRemoved", {
         domId: this.id,
         videoPlayerId: this.videoPlayerId
       })

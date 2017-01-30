@@ -34,10 +34,14 @@ let storage = {
     let obj
     obj = str ? JSON.parse(str) : {}
     obj[key] = value
+    try {
     localStorage.setItem(directory, JSON.stringify(obj))
+    } catch (err) {}
     let types = getTypes()
     types[key] = dataType
+    try {
     localStorage.setItem(directory + '_type', JSON.stringify(types))
+    } catch (err) {}
     this.emit('change')
   },
   get: function (key) {
@@ -57,10 +61,14 @@ let storage = {
     let obj =JSON.parse(str)
     let data = obj[key]
     delete obj[key]
+    try {
     localStorage.setItem(directory, JSON.stringify(obj))
+    } catch (err) {}
     let types = getTypes()
     delete types[key]
+    try {
     localStorage.setItem(directory + '_type', JSON.stringify(types))
+    } catch (err) {}
     this.emit('change')
     return data
   },

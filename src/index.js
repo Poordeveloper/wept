@@ -1,3 +1,10 @@
+/*
+window.onerror = function(msg, url, line, col, error) {
+  var extra = !col ? '' : '\ncolumn: ' + col;
+  extra += !error ? '' : '\nerror: ' + error.stack;
+  alert('exception: ' + msg + '\nurl: ' + url + '\nline: ' + line + extra);
+}
+*/
 import Nprogress from 'nprogress'
 import * as util from './util'
 import Bus from './bus'
@@ -7,6 +14,7 @@ import toast from './component/toast'
 import tabbar from './tabbar'
 import debounce from 'debounce'
 import * as nativeMethods from './native'
+import request from './sdk/api'
 require('./message')
 
 let ua = navigator.userAgent
@@ -47,6 +55,7 @@ Bus.on('route', (n, curr) => {
   tabbar.show(curr.url)
 })
 
+/*
 let socket = new WebSocket(`ws://${location.host}`)
 socket.onopen = function () {
   console.log('=> socket open')
@@ -90,13 +99,14 @@ window.addEventListener('unload', function () {
   socket.close()
 })
 
+*/
 window.addEventListener('resize', debounce(function () {
   eachView(view => {
     view.resizeWxss()
   })
 }, 200))
 
-let serviceFrame = util.createFrame('service', '/appservice', true)
+let serviceFrame = util.createFrame('service', '/appservice.html', true)
 Object.defineProperty(serviceFrame.contentWindow, 'prompt', {
   get: function () {
     return function (str) {
@@ -113,3 +123,18 @@ Object.defineProperty(serviceFrame.contentWindow, 'prompt', {
     }
   }
 })
+
+if (__wx_sign_url__[0] === '<') __wx_sign_url__ = '//' + window.location.hostname + '/api/wx/signature';
+request({url: __wx_sign_url__}).then(data => {
+  console.log(data);
+  window.wx.config({
+    // debug: true,
+    ...data,
+    jsApiList: ['chooseImage', 'previewImage', 'openLocation', 'getLocation'],
+  });
+  window.wx.ready(() => {
+    wx.isReady = true;
+    console.log('wx ready');
+  });
+});
+
