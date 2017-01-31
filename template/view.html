@@ -83,6 +83,7 @@
       }
     })
   }
+/*
   document.addEventListener('touchstart', function (e) {
   })
   document.addEventListener('touchend', function (e) {
@@ -94,6 +95,15 @@
   document.addEventListener('focus', function (e) {
   })
   document.addEventListener('blur', function (e) {
+  })
+*/
+  var _startedAt = new Date();
+  document.addEventListener('click', function (e) {
+    // to avoid click penetration, better solution is to enable page switch animation
+    var href = e.target && e.target.getAttribute('href');
+    if (href && (new Date() - _startedAt) < 400) {
+      e.preventDefault();
+    }
   })
   </script>
 </head>

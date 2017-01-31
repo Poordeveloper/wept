@@ -33,7 +33,7 @@ export default function ({itemList, itemColor = '#000000'}) {
     el.addEventListener('click', (e) => {
       if (called) return
       if (classes(e.target).has('wx-action-sheet-mask')) {
-        if (new Date() - t < 500) return;
+        if (new Date() - t < 400) return;
         called = true
         resolve({cancel: true})
       } else if (classes(e.target).has('wx-action-sheet-item')) {
