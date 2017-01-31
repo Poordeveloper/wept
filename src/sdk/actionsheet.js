@@ -28,12 +28,14 @@ export default function ({itemList, itemColor = '#000000'}) {
   el = domify(fn({ itemList, itemColor }))
   document.body.appendChild(el)
   let called = false
+  var t = new Date()
   return new Promise(resolve => {
     el.addEventListener('click', (e) => {
       if (called) return
       if (classes(e.target).has('wx-action-sheet-mask')) {
-        // called = true
-        // resolve({cancel: true})
+        if (new Date() - t < 500) return;
+        called = true
+        resolve({cancel: true})
       } else if (classes(e.target).has('wx-action-sheet-item')) {
         called = true
         resolve({cancel: false, tapIndex: Number(e.target.getAttribute('data-index'))})

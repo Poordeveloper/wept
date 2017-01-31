@@ -14,6 +14,8 @@ export default class TimePicker extends Emitter {
     this.events = events(this.root, this);
     this.events.bind('click .cancel', 'cancel');
     this.events.bind('click .confirm', 'confirm');
+    var self = this;
+    setTimeout(function(){self.events.bind('click .wx-picker-mask', 'cancel');}, 500);
   }
   show() {
     this.root.appendChild(domify('<div class="wx-picker-mask"></div>'))
