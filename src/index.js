@@ -106,6 +106,10 @@ window.addEventListener('resize', debounce(function () {
   })
 }, 200))
 
+var _serviceLoaded;
+function loadService() {
+if (_serviceLoaded) return;
+_serviceLoaded = true;
 let serviceFrame = util.createFrame('service', '/appservice.html', true)
 Object.defineProperty(serviceFrame.contentWindow, 'prompt', {
   get: function () {
@@ -123,10 +127,13 @@ Object.defineProperty(serviceFrame.contentWindow, 'prompt', {
     }
   }
 })
+}
 
-if (__wx_sign_url__[0] === '<') __wx_sign_url__ = '//' + window.location.hostname + '/api/wx/signature';
+setTimeout(loadService, 400);
+
+if (__wx_sign_url__[0] === '<') __wx_sign_url__ = '//' + window.location.hostname + '/api/wx/signature?url=' + window.location.href.split('#')[0];
+console.log(__wx_sign_url__, window.location.href);
 request({url: __wx_sign_url__}).then(data => {
-  console.log(data);
   window.wx.config({
     // debug: true,
     ...data,
@@ -135,6 +142,7 @@ request({url: __wx_sign_url__}).then(data => {
   window.wx.ready(() => {
     wx.isReady = true;
     console.log('wx ready');
+    loadService();
   });
 });
 
