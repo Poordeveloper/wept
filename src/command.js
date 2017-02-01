@@ -28,6 +28,7 @@ import Toast from './component/toast'
 import mask from './component/mask'
 import qrscan from './component/qrscan'
 import {getRedirectData, validPath, dataURItoBlob, toNumber} from './util'
+import fixOrientation from 'fix-orientation'
 
 let appData = {} //eslint-disable-line
 let fileIndex = 0
@@ -324,16 +325,48 @@ export function hideNavigationBarLoading() {
 }
 
 export function chooseImage(data) {
+   /*
+  // for image rotation issue, we prefer to use wx.chooseImage, but no way to draw in canvas to upload
+  if (typeof wx !== 'undefined' && wx.isReady && navigator.userAgent.indexOf('wechatdevtools') < 0) {
+    wx.chooseImage({
+      count: data.args.count || 1,
+      sizeType: data.args.sizeType,
+      sourceType: data.args.sourceType,
+      success: (res) => {
+        onSuccess(data, { tempFilePaths: res.localIds });
+      }, 
+    });
+    return;
+  }
+  */
   let URL = (window.URL || window.webkitURL)
   filePicker({ multiple: true, accept: 'image/*' }, files => {
     const count = data.args.count || 1;
     files = [].slice.call(files, [0, count])
+    /*
     let paths = files.map(file => {
       let blob = URL.createObjectURL(file)
       fileStore[blob] = file
       return blob
     })
     onSuccess(data, { tempFilePaths: paths })
+    */
+    var paths = []
+    files.forEach((file) => {
+      var reader = new FileReader();
+      reader.onload = function (ev) {
+        var url = ev.target.result;
+        fixOrientation(url, function(fixed) {
+          if (fixed === url) {
+            paths.push(URL.createObjectURL(file));
+          } else {
+            paths.push(dataURItoBlob(fixed));
+          }
+          if (paths.length === files.length) onSuccess(data, { tempFilePaths: paths });
+        });
+      }
+      reader.readAsDataURL(file);
+    });
   })
 }
 
@@ -433,7 +466,7 @@ export function getNetworkType(data) {
 }
 
 export function getLocation(data) {
-  if (typeof wx !== 'undefined' && wx.isReady) {
+  if (typeof wx !== 'undefined' && wx.isReady && navigator.userAgent.indexOf('wechatdevtools') < 0) {
     wx.getLocation({
       success: (res) => {
         onSuccess(data, res);
@@ -654,13 +687,30 @@ export function operateMusicPlayer(data) {
 }
 */
 
+function getBlobFromObjectUrl(url) {
+  return new Promise((resolve, reject) => {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'blob';
+    xhr.onload = function(e) {
+      if (xhr.status == 200) {
+        var myBlob = xhr.response;
+        resolve(myBlob);
+      }
+    };
+    xhr.onerror = function (e) {
+      reject(e);
+    }
+    xhr.send();
+	});
+}
+
 export function uploadFile(data) {
   let args = data.args
   if (!args.filePath || !args.url || !args.name) {
     return onError(data, 'filePath, url and name required')
   }
   let file = fileStore[args.filePath]
-  if (!file) return onError(data, `${args.filePath} not found`)
 
   let headers = args.header || {}
   if (headers.Referer || headers.rederer) {
@@ -687,8 +737,15 @@ export function uploadFile(data) {
   for (key in formData) {
     body.append(key, formData[key])
   }
-  body.append(args.name, file)
-  xhr.send(body)
+  if (file) {
+    body.append(args.name, file)
+    xhr.send(body)
+  } else {
+    getBlobFromObjectUrl(args.filePath).then((blob) => {
+      body.append(args.name, blob);
+      xhr.send(body);
+    }, error => onError(data, error));
+  }
 }
 
 export function downloadFile(data) {
