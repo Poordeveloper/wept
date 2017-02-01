@@ -4,7 +4,7 @@ import Emitter from 'emitter'
 import {uid, createFrame, parsePath} from './util'
 
 function isMap(path) {
-  return /^http(s)?:\/\/(apis\.map|3gimg\.qq\.com)/.test(path)
+  return /^\/\/(www\.streetdirectory\.com|3gimg\.qq\.com)/.test(path)
 }
 
 export default class View extends Emitter {
@@ -17,7 +17,7 @@ export default class View extends Emitter {
     this.path = o.path
     this.query = o.query
     this.isMap = isMap(path)
-    let external = this.external = /^http(s)?:\/\//.test(path)
+    let external = this.external = /^\/\//.test(path)
     let root = document.querySelector('.scrollable')
     let width = window.innerWidth
     let ratio = window.devicePixelRatio

@@ -432,7 +432,7 @@ export function getNetworkType(data) {
 }
 
 export function getLocation(data) {
-  if (wx.isReady) {
+  if (typeof wx !== 'undefined' && wx.isReady) {
     wx.getLocation({
       success: (res) => {
         onSuccess(data, res);
@@ -445,6 +445,8 @@ export function getLocation(data) {
         longitude: coords.longitude,
         latitude: coords.latitude
       })
+    }, error => {
+      console.error('navigator.geolocation.getCurrentPosition failed:', error);
     })
   } else {
     onError(data, {
@@ -455,7 +457,11 @@ export function getLocation(data) {
 
 export function openLocation(data) {
   let args = data.args
-  let url = "http://apis.map.qq.com/tools/poimarker?type=0&marker=coord:" + args.latitude + "," + args.longitude + "&key=JMRBZ-R4HCD-X674O-PXLN4-B7CLH-42BSB&referer=wxdevtools"
+  let url = '/pages/map/map?lng=' + args.longitude + '&lat=' + args.latitude;
+  if (args.address) url += '&showAddress=' + args.address.replace(/&/g, ' ');
+  navigateTo({ args: { url } });
+  return;
+  // let url = "//apis.map.qq.com/tools/poimarker?type=0&marker=coord:" + args.latitude + "," + args.longitude + "&key=JMRBZ-R4HCD-X674O-PXLN4-B7CLH-42BSB&referer=wxdevtools"
   viewManage.openExternal(url)
   Nprogress.done()
   onSuccess(data, {
@@ -465,7 +471,7 @@ export function openLocation(data) {
 }
 
 export function chooseLocation(data) {
-  let url = `https://3gimg.qq.com/lightmap/components/locationPicker2/index.html?search=1&type=1&coord=39.90403%2C116.407526&key=JMRBZ-R4HCD-X674O-PXLN4-B7CLH-42BSB&referer=wxdevtools`
+  let url = `//3gimg.qq.com/lightmap/components/locationPicker2/index.html?search=1&type=1&coord=39.90403%2C116.407526&key=JMRBZ-R4HCD-X674O-PXLN4-B7CLH-42BSB&referer=wxdevtools`
   viewManage.openExternal(url)
   Nprogress.done()
   let called = false

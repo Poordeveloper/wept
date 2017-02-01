@@ -4236,6 +4236,53 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       var self = this;
       var onload_ = function() {
         var options = {
+          center: [self.latitude, self.longitude],
+          zoom: self.scale || 16,
+        };
+        if (L.mapbox) L.mapbox.accessToken = 'pk.eyJ1IjoiemhvdWh1YWIiLCJhIjoiY2l5NDBiMzFhMDAxNDMzcDFxZW15N29sbSJ9.upjOPNFyhTK6FXmleY8hYw';
+        var t = self._map = L.mapbox ? L.mapbox.map(self.$.map, 'mapbox.streets', options) : L.map(self.$.map, options);
+        t.on('dragend', function(e) {
+          var c = t.getCenter();
+          self.bindregionchange && wx.publishPageEvent(self.bindregionchange, { type: 'dragend', lat: c.lat, lng : c.lng });
+        });
+        L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          subdomains: ['a','b','c']
+        }).addTo(t);
+        (self.markers || []).forEach(function(m) {
+          var myIcon = L.icon({
+              iconUrl: m.iconPath,
+              iconSize: [m.width, m.height],
+              //iconAnchor: [0, m.height],
+          });
+          var marker = L.marker([m.latitude, m.longitude], {icon: myIcon});
+          if (m.title) marker.bindPopup(m.title);
+          marker.addTo(t);
+        });
+      }
+      var onload = function() {
+        setTimeout(onload_, 100);
+      };
+      if (typeof L === 'undefined') {
+        var head  = document.getElementsByTagName('head')[0];
+        var link  = document.createElement('link');
+        link.rel  = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '//unpkg.com/leaflet@1.0.3/dist/leaflet.css';
+        // link.href = '//api.mapbox.com/mapbox.js/v3.0.1/mapbox.css';
+        head.appendChild(link);
+        var url = '//unpkg.com/leaflet@1.0.3/dist/leaflet.js';
+        // var url = '//api.mapbox.com/mapbox.js/v3.0.1/mapbox.js';
+        var scriptTag = document.createElement('script');
+        scriptTag.type = 'text/javascript';
+        scriptTag.src = url;
+        scriptTag.onload = onload;
+        document.body.appendChild(scriptTag);
+      } else
+        onload();
+      /*
+      var onload_ = function() {
+        var options = {
           center: new GeoPoint(self.longitude, self.latitude),
           zoom: self.scale || 12,
           // enableDefaultLogo: false,
@@ -4246,7 +4293,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
         t.addControl(navControl);
         ['OnEndDrag', 'OnEndMove', 'OnEndWheel', 'OnLevelChanged', 'OnDoubleClick'].forEach(function(event){t.viewport[event].register(function() {
           var c = t.getCenter();
-          self.bindregionchange && wx.publishPageEvent(self.bindregionchange, { type: event, lat: c.lat, lon: c.lon });
+          self.bindregionchange && wx.publishPageEvent(self.bindregionchange, { type: event, lat: c.lat, lng: c.lon });
         })});
         EventManager.add(t, 'click', function(e) {
           self.bindtap && wx.publishPageEvent(self.bindtap, e);
@@ -4280,6 +4327,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
         document.body.appendChild(scriptTag);
       } else
         onload();
+    */
     /*
       var e = this,
         t = this._map = new qq.maps.Map(this.$.map, {
