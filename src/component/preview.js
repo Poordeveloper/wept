@@ -16,6 +16,8 @@ import {has3d, transform, transition, transitionend} from 'prop-detect'
 const doc = document
 const body = doc.body
 
+let previewView;
+
 class ImagesPreview extends Emitter {
   /**
    * Constructor
@@ -26,6 +28,7 @@ class ImagesPreview extends Emitter {
    */
   constructor(imgs, opts = {}) {
     super()
+    previewView = this;
     this.opts = opts
     // maximun duration in ms for fast swipe
     this.threshold = opts.threshold || 200
@@ -392,6 +395,7 @@ class ImagesPreview extends Emitter {
     this.emit('hide')
     body.removeChild(this.container)
     this.unbind()
+    previewView = undefined;
   }
   /**
    * unbind tap event
@@ -430,4 +434,9 @@ function viewportWidth() {
 function preventDefault(e) {
   e.preventDefault()
 }
+
+export function hidePreview() {
+  if (previewView) previewView.hide();
+}
+
 export default ImagesPreview

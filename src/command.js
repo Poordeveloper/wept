@@ -326,7 +326,8 @@ export function hideNavigationBarLoading() {
 export function chooseImage(data) {
   let URL = (window.URL || window.webkitURL)
   filePicker({ multiple: true, accept: 'image/*' }, files => {
-    files = [].slice.call(files)
+    const count = data.args.count || 1;
+    files = [].slice.call(files, [0, count])
     let paths = files.map(file => {
       let blob = URL.createObjectURL(file)
       fileStore[blob] = file
@@ -667,7 +668,7 @@ export function uploadFile(data) {
   }
   let formData = args.formData || {}
   let xhr = new XMLHttpRequest()
-  xhr.open('POST', '/remoteProxy')
+  xhr.open('POST', args.url)
   xhr.onload = function () {
     if (xhr.status / 100 | 0 == 2) {
       onSuccess(data, {statusCode: xhr.status, data: xhr.responseText})
@@ -682,12 +683,11 @@ export function uploadFile(data) {
   for (key in headers) {
     xhr.setRequestHeader(key, headers[key]);
   }
-  xhr.setRequestHeader('X-Remote', args.url);
   let body = new FormData
-  body.append(args.name, file)
   for (key in formData) {
     body.append(key, formData[key])
   }
+  body.append(args.name, file)
   xhr.send(body)
 }
 
@@ -805,7 +805,10 @@ export function showActionSheet(data) {
 
 export function getImageInfo(data) {
   if (requiredArgs(['src'], data)) return
-  image(data.args.src).then(res => {
+  let src = data.args.src;
+  const i = src.indexOf('blob');
+  if (i > 0) src = src.slice(i);
+  image(src).then(res => {
     onSuccess(data, res)
   }, err => {
     onError(data, err.message)

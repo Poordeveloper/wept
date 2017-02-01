@@ -2,6 +2,7 @@ import Nprogress from 'nprogress'
 import * as util from './util'
 import Bus from './bus'
 import View from './view'
+import { hidePreview } from './component/preview'
 
 let curr = null
 let views = {}
@@ -39,6 +40,7 @@ export function redirectTo(path) {
 }
 
 window.onpopstate = function() {
+  hidePreview();
   navigateBack();
 };
 
