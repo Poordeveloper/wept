@@ -491,17 +491,33 @@ export function getLocation(data) {
 
 export function openLocation(data) {
   let args = data.args
+  if (typeof wx !== 'undefined' && wx.isReady && navigator.userAgent.indexOf('wechatdevtools') < 0) {
+    wx.openLocation({
+      latitude: args.latitude,
+      longitude: args.longitude,
+      address: args.address,
+      name: args.name,
+      scale: args.scale || 16,
+    });
+    Nprogress.done();
+    onSuccess(data, {
+      latitude: args.latitude,
+      longitude: args.longitude
+    });
+    return;
+  }
   let url = '/pages/map/map?lng=' + args.longitude + '&lat=' + args.latitude;
   if (args.address) url += '&showAddress=' + args.address.replace(/&/g, ' ');
   navigateTo({ args: { url } });
-  return;
-  // let url = "//apis.map.qq.com/tools/poimarker?type=0&marker=coord:" + args.latitude + "," + args.longitude + "&key=JMRBZ-R4HCD-X674O-PXLN4-B7CLH-42BSB&referer=wxdevtools"
+  /*
+  let url = "//apis.map.qq.com/tools/poimarker?type=0&marker=coord:" + args.latitude + "," + args.longitude + "&key=JMRBZ-R4HCD-X674O-PXLN4-B7CLH-42BSB&referer=wxdevtools"
   viewManage.openExternal(url)
   Nprogress.done()
   onSuccess(data, {
     latitude: args.latitude,
     longitude: args.longitude
   })
+  */
 }
 
 export function chooseLocation(data) {
