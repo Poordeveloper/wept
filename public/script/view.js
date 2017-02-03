@@ -5326,7 +5326,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
     changed: function(e) {
       this._selectedItem === e ? this.removeItem(e) : this.addItem(e)
     }
-  }), window.exparser.registerElement({
+  }), scrollview = {
     is: "wx-scroll-view",
     template: '\n    <div id="main" class="wx-scroll-view" style$="overflow-x: hidden; overflow-y: hidden;">\n      <slot></slot>\n    </div>\n  ',
     behaviors: ["wx-base", "wx-touchtrack"],
@@ -5465,7 +5465,9 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
         t && (this.$.main.scrollTop = t.offsetTop)
       }
     }
-  }), window.exparser.registerElement({
+  }, window.exparser.registerElement(scrollview)
+  , scrollview.is='wx-scroll-view_', window.exparser.registerElement(scrollview)
+  , window.exparser.registerElement({
     is: "wx-slider",
     template: '\n    <div class="wx-slider-wrapper" class.wx-slider-disabled="{{disabled}}">\n      <div class="wx-slider-tap-area" id="wrapper">\n        <div class="wx-slider-handle-wrapper" style.background-color="{{color}}">\n          <div class="wx-slider-handle" style.left="{{_getValueWidth(value,min,max)}}" id="handle"></div>\n          <div class="wx-slider-track" style.width="{{_getValueWidth(value,min,max)}}" style.background-color="{{selectedColor}}"></div>\n          <div class="wx-slider-step" id="step"></div>\n        </div>\n      </div>\n      <span hidden$="{{!showValue}}" class="wx-slider-value">\n        <p parse-text-content>{{value}}</p>\n      </span>\n    </div>\n  ',
     properties: {
