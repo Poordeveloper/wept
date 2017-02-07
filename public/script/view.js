@@ -3265,6 +3265,96 @@ window.exparser.registerElement({
       }
     }
   }), window.exparser.registerElement({
+    is: "wx-input_",
+    template: '<input id="input" class$="{{class}}" maxlength$="{{maxlength}}" style="padding:0;margin:0;width:100%;height:100%;border:0" type$="{{type}}" value$="{{value}}" disabled$="{{disabled}}" placeholder$="{{placeholder}}" />',
+    behaviors: ["wx-base", "wx-data-component"],
+    properties: {
+      style: {
+        type: String,
+        public: !0,
+      },
+      class: {
+        type: String,
+        public: !0,
+      },
+      maxlength: {
+        type: String,
+        public: !0
+      },
+      type: {
+        type: String,
+        public: !0
+      },
+      placeholder: {
+        type: String,
+        public: !0
+      },
+      bindblur: {
+        type: String,
+        public: !0
+      },
+      bindinput: {
+        type: String,
+        public: !0
+      },
+      disabled: {
+        type: Boolean,
+        public: !0
+      },
+      value: {
+        type: String,
+        public: !0,
+        observer: "defaultValueChange",
+      },
+    },
+    defaultValueChange: function(e) {
+      this.$.input.value = e;
+    },
+    fire: function(e, event) {
+      var t = {
+        id: this.$$.id,
+        dataset: this.dataset,
+        offsetTop: this.$$.offsetTop,
+        offsetLeft: this.$$.offsetLeft
+      };
+      myWeixinJSBridge.publish("SPECIAL_PAGE_EVENT", {
+        eventName: event,
+        ext: {
+          setKeyboardValue: !1,
+        },
+        data: {
+          data: {
+            type: 'input',
+            timestamp: Date.now(),
+            detail: {
+              value: e.target.value,
+            },
+            target: t,
+            currentTarget: t,
+            touches: [],
+          },
+          eventName: event,
+        }
+      });
+    },
+    inputKeyUp: function(e) {
+      if (this.bindinput) this.fire(e, this.bindinput);
+    },
+    blur: function(e) {
+      if (this.bindblur) this.fire(e, this.bindblur);
+    },
+    attached: function() {
+      var e = this;
+      this._blur = this.blur.bind(this);
+      this.$.input.addEventListener('blur', this._blur);
+      this._inputKeyUp = this.inputKeyUp.bind(this);
+      this.$.input.addEventListener("keyup", this._inputKeyUp);
+    },
+    detached: function() {
+      this.$.input.removeEventListener('blur', this._blur);
+      this.$.input.removeEventListener('keyup', this._inputKeyUp);
+    },
+  }), window.exparser.registerElement({
     is: "wx-a",
     template: '<a class$="{{class}}" style$="{{style}}" href$="{{href}}" target$="{{target}}"><slot></slot></a>',
     behaviors: ["wx-base"],
