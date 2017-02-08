@@ -175,9 +175,11 @@ export function redirectTo(data) {
 const myhistory = [];
 export function navigateTo(data) {
   myhistory.push(data.args.url);
-  window.history.pushState(null, '', data.args.url);
-  redirectTo(data);
-  return;
+  if (window.location.href.search('/fabu/') < 0) {
+    window.history.pushState(null, '', data.args.url);
+    redirectTo(data);
+    return;
+  }
   let str = sessionStorage.getItem('routes')
   if (str && str.split('|').length == 5) {
     console.warn('WEPT: 当前页面栈已到达 5 个，请注意控制 navigateTo 深度')
@@ -190,6 +192,12 @@ export function navigateTo(data) {
 window.onpopstate = function() {
   myhistory.pop();
   hidePreview();
+  if (window.location.href.search('/fabu/') >= 0) {
+    viewManage.navigateBack(1, () => {
+      onBack();
+    })
+    return;
+  }
   let path = window.location.href.split('#!')[1];
   if (!path) path = 'page/index/index';
   redirectTo({args:{url:path.replace('page/', 'pages/')}});
