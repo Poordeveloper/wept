@@ -1,4 +1,5 @@
 /*global __wxConfig__*/
+import { hidePreview } from './component/preview'
 import Nprogress from 'nprogress'
 import filePicker from 'file-picker'
 import merge from 'merge'
@@ -171,7 +172,12 @@ export function redirectTo(data) {
   onNavigate(data, 'redirectTo')
 }
 
+const myhistory = [];
 export function navigateTo(data) {
+  myhistory.push(data.args.url);
+  window.history.pushState(null, '', data.args.url);
+  redirectTo(data);
+  return;
   let str = sessionStorage.getItem('routes')
   if (str && str.split('|').length == 5) {
     console.warn('WEPT: 当前页面栈已到达 5 个，请注意控制 navigateTo 深度')
@@ -181,7 +187,18 @@ export function navigateTo(data) {
   onNavigate(data, 'navigateTo')
 }
 
+window.onpopstate = function() {
+  myhistory.pop();
+  hidePreview();
+  let path = window.location.href.split('#!')[1];
+  if (!path) path = 'page/index/index';
+  redirectTo({args:{url:path.replace('page/', 'pages/')}});
+}
+
 export function navigateBack(data) {
+  if (myhistory.length) window.history.back();
+  else navigateTo({args:{url:'pages/index/index'}});
+  return;
   data.args = data.args || {}
   data.args.url = viewManage.currentView().path + '.html'
   let delta = data.args.delta ? Number(data.args.delta) : 1

@@ -37,7 +37,7 @@ export function validPath(p) {
 }
 
 export function isTabbar(url) {
-  let list = window.__wxConfig__.tabBar && window.__wxConfig__.tabBar.list
+  let list = null; // window.__wxConfig__.tabBar && window.__wxConfig__.tabBar.list
   if (!list) return
   let pages = list.map(o => o.pagePath)
   return pages.indexOf(url) !== -1

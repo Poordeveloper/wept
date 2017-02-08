@@ -39,10 +39,12 @@ export function redirectTo(path) {
   onRoute()
 }
 
+/*
 window.onpopstate = function() {
   hidePreview();
   navigateBack();
 };
+*/
 
 export function navigateTo(path) {
   path = normalize(path)

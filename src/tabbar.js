@@ -6,7 +6,7 @@ import {currentView} from './viewManage'
 class Tabbar extends Component {
   constructor(props) {
     super(props)
-    let tabBar = window.__wxConfig__.tabBar || {}
+    let tabBar = {}; //window.__wxConfig__.tabBar || {}
     this.state = {
       activeIdx: 0,
       ...tabBar
