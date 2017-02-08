@@ -5472,7 +5472,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
           i = e.$.main;
         e.__touchStartY < n ? i.scrollTop > 0 && t.stopPropagation() : i.scrollHeight > i.offsetHeight + i.scrollTop && t.stopPropagation()
       }, this.__handleTouchStart = function(t) {
-        e.__touchStartY = t.touches[0].pageY, myWeixinJSBridge.invoke("disableScrollBounce", {
+        e.__touchStartY = t.touches[0].pageY, e.$.main.scrollTop > 0 && myWeixinJSBridge.invoke("disableScrollBounce", {
           disable: !0
         }, function() {});
         var n = e.$.main;
