@@ -15,6 +15,7 @@ import tabbar from './tabbar'
 import debounce from 'debounce'
 import * as nativeMethods from './native'
 import request from './sdk/api'
+import storage from './sdk/storage'
 require('./message')
 
 let ua = navigator.userAgent

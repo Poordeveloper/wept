@@ -4406,7 +4406,8 @@ var Reporter = function(e) {
             key: ""
           }) && (0, s.invokeMethod)("getStorage", e, {
             beforeSuccess: function(e) {
-              e.data = (0, f.stringToAnyType)(e.data, e.dataType), delete e.dataType
+              // e.data = (0, f.stringToAnyType)(e.data, e.dataType), delete e.dataType
+              delete e.dataType
             }
           })
         },
@@ -4419,7 +4420,8 @@ var Reporter = function(e) {
             }, {
               beforeAll: function() {
                 var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
-                n = (0, f.stringToAnyType)(e.data, e.dataType)
+                // n = (0, f.stringToAnyType)(e.data, e.dataType)
+                n = e.data
               }
             }), n
           }

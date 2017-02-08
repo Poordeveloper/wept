@@ -295,13 +295,13 @@ var Symbol = {};
       },
       o = n() ? Object.assign(__wxConfig.userInfo) : {};
     delete __wxConfig.userInfo;
-    var r = {
+    var r = {/*
         login: function(e, t, n) {
           n({
             errMsg: "login:ok",
             code: "the code is a mock one"
           })
-        },
+        },*/
         authorize: function(e, t, n) {
           n({
             errMsg: "authorize:fail"

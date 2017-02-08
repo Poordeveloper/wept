@@ -465,6 +465,10 @@ export function getNetworkType(data) {
   })
 }
 
+export function login(data) {
+  onSuccess(data, {});
+}
+
 export function getLocation(data) {
   if (typeof wx !== 'undefined' && wx.isReady && navigator.userAgent.indexOf('wechatdevtools') < 0) {
     wx.getLocation({

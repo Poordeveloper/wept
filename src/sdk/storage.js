@@ -3,8 +3,6 @@ import Emitter from 'emitter'
 // 5MB
 const LIMIT_SIZE = 5*1024
 
-let directory = window.__wxConfig__.directory
-
 function currentSize() {
   var total = 0
   for(var x in localStorage) {
@@ -14,94 +12,56 @@ function currentSize() {
   return Math.ceil(total)
 }
 
-function getType(key) {
-  let str= localStorage.getItem(directory + '_type')
-  if (!str) return
-  let obj = JSON.parse(str)
-  return obj[key]
-}
-
-function getTypes() {
-  let str= localStorage.getItem(directory + '_type')
-  if (!str) return {}
-  return JSON.parse(str)
-}
-
 let storage = {
-  set: function (key, value, dataType) {
+  set: function (key, value) {
     if (window.localStorage == null) return console.error('localStorage not supported')
-    let str = localStorage.getItem(directory)
-    let obj
-    obj = str ? JSON.parse(str) : {}
-    obj[key] = value
     try {
-    localStorage.setItem(directory, JSON.stringify(obj))
-    } catch (err) {}
-    let types = getTypes()
-    types[key] = dataType
-    try {
-    localStorage.setItem(directory + '_type', JSON.stringify(types))
+    localStorage.setItem(key, value);
     } catch (err) {}
     this.emit('change')
   },
   get: function (key) {
     if (window.localStorage == null) return console.error('localStorage not supported')
-    let str = localStorage.getItem(directory)
-    let obj
-    obj = str ? JSON.parse(str) : {}
+    let str = localStorage.getItem(key)
+    try {
+      str = JSON.parse(str)
+    } catch(err) {}
     return {
-      data: obj[key],
-      dataType: getType(key)
+      data: str,
     }
   },
   remove: function (key) {
     if (window.localStorage == null) return console.error('localStorage not supported')
-    let str = localStorage.getItem(directory)
-    if (!str) return
-    let obj =JSON.parse(str)
-    let data = obj[key]
-    delete obj[key]
+    const data = this.get(key);
     try {
-    localStorage.setItem(directory, JSON.stringify(obj))
-    } catch (err) {}
-    let types = getTypes()
-    delete types[key]
-    try {
-    localStorage.setItem(directory + '_type', JSON.stringify(types))
+    localStorage.removeItem(key);
     } catch (err) {}
     this.emit('change')
-    return data
+    return data;
   },
   clear: function () {
     if (window.localStorage == null) return console.error('localStorage not supported')
-    localStorage.removeItem(directory)
-    localStorage.removeItem(directory + '_type')
+    localStorage.clear();
     this.emit('change')
   },
   getAll: function () {
     if (window.localStorage == null) return console.error('localStorage not supported')
-    let str = localStorage.getItem(directory)
-    let obj = str ? JSON.parse(str) : {}
-    let res = {}
-    Object.keys(obj).forEach(function (key) {
-      res[key] = {
-        data: obj[key],
-        dataType: getType(key)
-      }
+    const res = {};
+    Object.keys(localStorage).forEach((key) => {
+      res[key] = this.get(key)
     })
     return res
   },
   info: function () {
     if (window.localStorage == null) return console.error('localStorage not supported')
-    let str = localStorage.getItem(directory)
-    let obj = str ? JSON.parse(str) : {}
     return {
-      keys: Object.keys(obj),
+      keys: Object.keys(localStorage),
       limitSize: LIMIT_SIZE,
       currentSize: currentSize()
     }
   }
 }
+
 
 Emitter(storage)
 
