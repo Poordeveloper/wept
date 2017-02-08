@@ -16,6 +16,7 @@ import debounce from 'debounce'
 import * as nativeMethods from './native'
 import request from './sdk/api'
 import storage from './sdk/storage'
+import { login } from './command'
 require('./message')
 
 let ua = navigator.userAgent
@@ -110,6 +111,15 @@ window.addEventListener('resize', debounce(function () {
 var _serviceLoaded;
 function loadService() {
 if (_serviceLoaded) return;
+const user = storage.get('currentUser')
+if (!user || !user.data) {
+  storage.set('currentUser', JSON.stringify({}));
+  login();
+}
+const t = window.location.href.split('?t=')[1]
+if (t) {
+  storage.set('currentUser', JSON.stringify({sessionToken: t}));
+}
 _serviceLoaded = true;
 let serviceFrame = util.createFrame('service', '/appservice.html', true)
 Object.defineProperty(serviceFrame.contentWindow, 'prompt', {
