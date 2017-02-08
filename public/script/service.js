@@ -8067,3 +8067,4 @@ var Reporter = function(e) {
 };;
 var __WAServiceEndTime__ = Date.now();
 wx.isHttps = window.location.href.startsWith('https')
+wx.isWeb = true
