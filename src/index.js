@@ -112,13 +112,12 @@ var _serviceLoaded;
 function loadService() {
 if (_serviceLoaded) return;
 const user = storage.get('currentUser')
-if (!user || !user.data) {
-  storage.set('currentUser', JSON.stringify({}));
-  login();
-}
 const t = window.location.href.split('?t=')[1]
 if (t) {
   storage.set('currentUser', JSON.stringify({sessionToken: t}));
+} else if (!user || !user.data) {
+  storage.set('currentUser', JSON.stringify({}));
+  login();
 }
 _serviceLoaded = true;
 let serviceFrame = util.createFrame('service', '/appservice.html', true)
@@ -140,7 +139,7 @@ Object.defineProperty(serviceFrame.contentWindow, 'prompt', {
 })
 }
 
-setTimeout(loadService, 1000);
+setTimeout(loadService, 3000);
 
 if (__wx_sign_url__[0] === '<') __wx_sign_url__ = '//' + window.location.hostname + '/api/wx/signature?url=' + window.location.href.split('#')[0];
 console.log(__wx_sign_url__, window.location.href);

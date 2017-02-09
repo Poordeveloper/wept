@@ -51,6 +51,8 @@ export default class View extends Emitter {
       cb()
     }
     this.readyCallbacks = null
+    const e = document.getElementById('splash');
+    if (e) e.remove();
   }
   onReady(cb) {
     if (this.ready) return cb()

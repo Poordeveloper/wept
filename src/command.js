@@ -507,23 +507,34 @@ export function login(data) {
   window.location = window.location.origin + '/api/wx/auth/snsapi_userinfo?state=' + window.location.origin
 }
 
-export function getLocation(data) {
-  if (typeof wx !== 'undefined' && wx.isReady && navigator.userAgent.indexOf('wechatdevtools') < 0) {
+export function getLocation(data, noNative) {
+  if (!noNative && typeof wx !== 'undefined' && wx.isReady && navigator.userAgent.indexOf('wechatdevtools') < 0) {
     wx.getLocation({
       success: (res) => {
         onSuccess(data, res);
       },
+      fail: (err) => {
+        getLocation(data, true);
+      },
     });
   } else if ("geolocation" in navigator) {
+     const options = {
+      enableHighAccuracy: false,
+      timeout: 3000,
+      maximumAge: 0
+     };
+    const timeout = setTimeout(() => { onError(data, 'timeout'); }, 3100);
     navigator.geolocation.getCurrentPosition(position => {
+      clearTimeout(timeout);
       let coords = position.coords
       onSuccess(data, {
         longitude: coords.longitude,
         latitude: coords.latitude
       })
     }, error => {
-      console.error('navigator.geolocation.getCurrentPosition failed:', error);
-    })
+      clearTimeout(timeout);
+      onError(data, error);
+    }, options)
   } else {
     onError(data, {
       message: 'geolocation not supported'
