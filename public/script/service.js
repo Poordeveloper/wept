@@ -8066,5 +8066,5 @@ var Reporter = function(e) {
   version: 0
 };;
 var __WAServiceEndTime__ = Date.now();
-wx.isHttps = window.location.href.startsWith('https')
+wx.origin = window.location.origin
 wx.isWeb = true
