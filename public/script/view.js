@@ -4496,16 +4496,22 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
     */
     },
     latitudeChanged: function(e, t) {
+      this._map && this._map.panTo && this._map.panTo(new L.LatLng(e, this.longitude));
+      /*
       if (e) return this._isReady ? void(this._isMobile() ? this._update({
         centerLatitude: e,
         centerLongitude: this.longitude
       }, "纬度") : this._map.setCenter(new qq.maps.LatLng(e, this.longitude))) : void this._delay("latitudeChanged", e, t)
+      */
     },
     longitudeChanged: function(e, t) {
+      this._map && this._map.panTo && this._map.panTo(new L.LatLng(this.latitude, e));
+      /*
       if (e) return this._isReady ? void(this._isMobile() ? this._update({
         centerLatitude: this.latitude,
         centerLongitude: e
       }, "经度") : this._map.setCenter(new qq.maps.LatLng(this.latitude, e))) : void this._delay("longitudeChanged", e, t)
+      */
     },
     scaleChanged: function() {
       var e = arguments.length <= 0 || void 0 === arguments[0] ? 16 : arguments[0],
