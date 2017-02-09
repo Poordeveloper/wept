@@ -105,10 +105,22 @@ export function requestPayment(data) {
   })
 }
 
+function convertImageUrl(img) {
+  if (!img) return;
+  if (img.startsWith('http') && img.search(/\?/) < 0) {
+    return img + '?imageMogr2/auto-orient/format/jpg';
+  }
+}
+
 export function previewImage(data) {
   let args = data.args
-  let urls = args.urls
-  let current = args.current
+  if (wx.isReady && args.current.startsWith('http')) {
+    wx.previewImage(args);
+    onSuccess(data);
+    return;
+  }
+  let urls = args.urls.map(convertImageUrl)
+  let current = convertImageUrl(args.current)
   let preview = new Preview(urls, {})
   preview.show()
   preview.active(current)
