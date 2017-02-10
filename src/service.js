@@ -16,7 +16,8 @@ Bus.once('APP_SERVICE_COMPLETE', () => {
 
 function message(obj) {
   let el = document.getElementById('service')
-  el.contentWindow.postMessage(obj, '*')
+  // obj can not contain function, so we convert it first
+  el.contentWindow.postMessage(JSON.parse(JSON.stringify(obj)), '*')
 }
 
 export function toAppService(data) {
