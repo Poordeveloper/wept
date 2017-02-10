@@ -960,6 +960,9 @@ export function showPickerView(data, args) {
   picker.on('select', n => {
     publishPagEevent('bindPickerChange', {
       type: 'change',
+      currentTarget: {
+        dataset: args.dataset,
+      },
       detail: {
         value: n + ''
       }

@@ -4897,6 +4897,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
         myWeixinJSBridge.invoke("showPickerView", {
           array: i,
           current: n,
+          dataset: this.dataset,
           style: this.getCustomerStyle()
         }, function(e) {
           /:ok/.test(e.errMsg) && (t.value = e.index, t.triggerEvent("change", {
