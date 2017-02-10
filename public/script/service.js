@@ -4199,7 +4199,8 @@ var Reporter = function(e) {
       removeStorage_fail: 65,
       getStorageInfo_fail: 66,
       getStorageSync_fail: 67,
-      setStorageSync_fail: 68
+      setStorageSync_fail: 68,
+      replaceState: 69
     }, t.KeyValueType = {
       Speed: "13544",
       Error: "13582",
@@ -4759,6 +4760,9 @@ var Reporter = function(e) {
         },
         login: function(e) {
           (0, s.invokeMethod)("login", e)
+        },
+        replaceState: function(e) {
+          (0, s.invokeMethod)("replaceState", e)
         },
         checkLogin: function(e) {
           (0, s.invokeMethod)("checkLogin", e)

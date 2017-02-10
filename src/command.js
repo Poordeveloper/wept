@@ -187,7 +187,7 @@ export function redirectTo(data) {
 const myhistory = [];
 export function navigateTo(data) {
   myhistory.push(data.args.url);
-  if (window.location.href.search('/fabu/') < 0) {
+  if (window.location.href.search('/_retained\//') < 0) {
     window.history.pushState(null, '', data.args.url);
     redirectTo(data);
     return;
@@ -204,7 +204,7 @@ export function navigateTo(data) {
 window.onpopstate = function() {
   myhistory.pop();
   hidePreview();
-  if (window.location.href.search('/fabu/') >= 0) {
+  if (window.location.href.search('/_retained\//') >= 0) {
     viewManage.navigateBack(1, () => {
       onBack();
     })
@@ -506,6 +506,18 @@ export function getNetworkType(data) {
 export function login(data) {
   if (window.location.href.search('localhost') >= 0) return;
   window.location = window.location.origin + '/api/wx/auth/snsapi_userinfo?state=' + window.location.origin
+}
+
+export function replaceState(data) {
+  if (typeof history.replaceState == 'function') {
+    let url = window.location.href.split('?')[0] + '?';
+    for (let key in data.args) {
+      if (data.args.hasOwnProperty(key)) {
+        url += key + '=' + data.args[key] + '&';
+      }
+    }
+    history.replaceState({}, '', url)
+  }
 }
 
 export function getLocation(data, noNative) {
