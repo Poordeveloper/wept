@@ -7224,7 +7224,7 @@ var Reporter = function(e) {
         };
         (0, c.publish)("appDataChange", r, [t]), (0, f.triggerAnalytics)("pageReady", e)
       })),
-      w = function(e, t, n) {
+      w = function(e, t, n, onpopstate) {
         var r = void 0;
         h.hasOwnProperty(e) ? r = h[e] : ((0, c.warn)("Page route 错误", "Page[" + e + "] not found. May be caused by: 1. Forgot to add page route in app.json. 2. Invoking Page() in async task."), r = {}), y.newPageTime = Date.now();
         var o = new u.default(r, t, e);
@@ -7232,7 +7232,7 @@ var Reporter = function(e) {
           page: o,
           webviewId: t,
           route: e
-        }, d.push(l), o.onLoad(n), o.onShow(), p[t] = {
+        }, d.push(l), o.onLoad(n,{onpopstate:onpopstate}), o.onShow(), p[t] = {
           page: o,
           route: e
         }, (0, f.triggerAnalytics)("enterPage", o), b("appRoute2newPage", y.appRouteTime, y.newPageTime)
@@ -7240,15 +7240,18 @@ var Reporter = function(e) {
       _ = function(e) {
         e.page.onHide(), (0, f.triggerAnalytics)("leavePage", e.page)
       },
-      S = function(e) {
-        e.page.onUnload(), (0, c.isDevTools)() && (delete __wxAppData[e.route], (0, c.publish)(s.UPDATE_APP_DATA)), delete p[e.webviewId], d = d.slice(0, d.length - 1), (0, f.triggerAnalytics)("leavePage", e.page)
+      S = function(e,pushState) {
+        // pushState added by me to make service side can handle history correctly, otherwise,
+        // service side's history always empty, because we only use redirectTo due to multiple
+        // iframe hang issue
+        e.page.onUnload({pushState:pushState}), (0, c.isDevTools)() && (delete __wxAppData[e.route], (0, c.publish)(s.UPDATE_APP_DATA)), delete p[e.webviewId], d = d.slice(0, d.length - 1), (0, f.triggerAnalytics)("leavePage", e.page)
       },
       k = function(e) {
         return g.indexOf(e.route) !== -1 || g.indexOf(e.route + ".html") !== -1
       },
-      x = function(e, t, n, r) {
-        if ((0, c.info)("On app route: " + e), y.appRouteTime = Date.now(), "navigateTo" === r) l && _(l), p.hasOwnProperty(t) ? (0, c.error)("Page route 错误(system error)", "navigateTo with an already exist webviewId " + t) : w(e, t, n);
-        else if ("redirectTo" === r) l && S(l), p.hasOwnProperty(t) ? (0, c.error)("Page route 错误(system error)", "redirectTo with an already exist webviewId " + t) : w(e, t, n);
+      x = function(e, t, n, r, pushState, onpopstate) {
+        if ((0, c.info)("On app route: " + e), y.appRouteTime = Date.now(), "navigateTo" === r) l && _(l), p.hasOwnProperty(t) ? (0, c.error)("Page route 错误(system error)", "navigateTo with an already exist webviewId " + t) : w(e, t, n,onpopstate);
+        else if ("redirectTo" === r) l && S(l,pushState), p.hasOwnProperty(t) ? (0, c.error)("Page route 错误(system error)", "redirectTo with an already exist webviewId " + t) : w(e, t, n,onpopstate);
         else if ("navigateBack" === r) {
           for (var o = !1, i = d.length - 1; i >= 0; i--) {
             var a = d[i];
@@ -7301,7 +7304,7 @@ var Reporter = function(e) {
         n = e.webviewId,
         r = e.query || {},
         o = e.openType;
-      x(t, n, r, o)
+      x(t, n, r, o, e.pushState, e.onpopstate)
     }), "onAppRoute"), wx.onWebviewEvent((0, c.surroundByTryCatch)(function(e) {
       var t = e.webviewId,
         n = e.eventName,

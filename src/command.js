@@ -184,22 +184,10 @@ export function redirectTo(data) {
   onNavigate(data, 'redirectTo')
 }
 
-const reg = /\/[^\/]+\/?id=[^\/&]+/
-const myhistory = [];
 export function navigateTo(data) {
-  if (myhistory.length > 1) {
-    const a = data.args.url.match(reg);
-    if (a && a[0]) {
-      const b = myhistory[myhistory.length - 2].match(reg)
-      if (b && b[0] === a[0]) {
-        navigateBack();
-        return;
-      }
-    }
-  }
-  myhistory.push(data.args.url);
   if (window.location.href.search('/_retained\//') < 0) {
     window.history.pushState(null, '', data.args.url);
+    data.pushState = true;
     redirectTo(data);
     return;
   }
@@ -213,7 +201,6 @@ export function navigateTo(data) {
 }
 
 window.onpopstate = function() {
-  myhistory.pop();
   hidePreview();
   if (window.location.href.search('/_retained\//') >= 0) {
     viewManage.navigateBack(1, () => {
@@ -223,13 +210,11 @@ window.onpopstate = function() {
   }
   let path = window.location.href.split('#!')[1];
   if (!path) path = 'page/index/index';
-  redirectTo({args:{url:path.replace('page/', 'pages/')}});
+  redirectTo({onpopstate: true, args:{url:path.replace('page/', 'pages/')}});
 }
 
 export function navigateBack(data) {
-  if (myhistory.length) window.history.back();
-  else navigateTo({args:{url:'pages/index/index'}});
-  return;
+  return window.history.back();
   data.args = data.args || {}
   data.args.url = viewManage.currentView().path + '.html'
   let delta = data.args.delta ? Number(data.args.delta) : 1
