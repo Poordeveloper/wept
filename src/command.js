@@ -184,8 +184,19 @@ export function redirectTo(data) {
   onNavigate(data, 'redirectTo')
 }
 
+const reg = /\/[^\/]+\/?id=[^\/&]+/
 const myhistory = [];
 export function navigateTo(data) {
+  if (myhistory.length > 1) {
+    const a = data.args.url.match(reg);
+    if (a && a[0]) {
+      const b = myhistory[myhistory.length - 2].match(reg)
+      if (b && b[0] === a[0]) {
+        navigateBack();
+        return;
+      }
+    }
+  }
   myhistory.push(data.args.url);
   if (window.location.href.search('/_retained\//') < 0) {
     window.history.pushState(null, '', data.args.url);
