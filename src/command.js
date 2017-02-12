@@ -504,9 +504,26 @@ export function login(data) {
   window.location = window.location.origin + '/api/wx/auth/snsapi_userinfo?state=' + window.location.origin
 }
 
+export function pushState(data) {
+  if (typeof history.pushState == 'function') {
+    let url = window.location.origin + '#!' + data.args.page + '?';
+    delete data.args.page;
+    for (let key in data.args) {
+      if (data.args.hasOwnProperty(key)) {
+        url += key + '=' + data.args[key] + '&';
+      }
+    }
+    history.pushState({}, '', url)
+  }
+}
+
 export function replaceState(data) {
   if (typeof history.replaceState == 'function') {
-    let url = window.location.href.split('?')[0] + '?';
+    let url;
+    if (data.args.page) {
+      url = window.location.origin + '#!' + data.args.page + '?';
+      delete data.args.page;
+    } else url = window.location.href.split('?')[0] + '?';
     for (let key in data.args) {
       if (data.args.hasOwnProperty(key)) {
         url += key + '=' + data.args[key] + '&';
