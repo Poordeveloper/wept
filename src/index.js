@@ -16,7 +16,6 @@ import debounce from 'debounce'
 import * as nativeMethods from './native'
 import request from './sdk/api'
 import storage from './sdk/storage'
-import { login } from './command'
 require('./message')
 
 let ua = navigator.userAgent
@@ -115,11 +114,6 @@ const user = storage.get('currentUser')
 const t = window.location.href.split('?t=')[1]
 if (t) {
   storage.set('currentUser', JSON.stringify({sessionToken: t}));
-} else if (!user || !user.data) {
-  if (/micromessenger/i.test(navigator.userAgent)) {
-  storage.set('currentUser', JSON.stringify({}));
-  login();
-  }
 }
 _serviceLoaded = true;
 let serviceFrame = util.createFrame('service', '/appservice.html', true)
