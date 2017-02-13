@@ -116,8 +116,10 @@ const t = window.location.href.split('?t=')[1]
 if (t) {
   storage.set('currentUser', JSON.stringify({sessionToken: t}));
 } else if (!user || !user.data) {
+  if (/micromessenger/i.test(navigator.userAgent)) {
   storage.set('currentUser', JSON.stringify({}));
   login();
+  }
 }
 _serviceLoaded = true;
 let serviceFrame = util.createFrame('service', '/appservice.html', true)
@@ -139,6 +141,7 @@ Object.defineProperty(serviceFrame.contentWindow, 'prompt', {
 })
 }
 
+if (/micromessenger/i.test(navigator.userAgent)) {
 setTimeout(loadService, 3000);
 
 if (__wx_sign_url__[0] === '<') __wx_sign_url__ = '//' + window.location.hostname + '/api/wx/signature?url=' + window.location.href.split('#')[0];
@@ -155,4 +158,6 @@ request({url: __wx_sign_url__}).then(data => {
     loadService();
   });
 });
-
+} else {
+loadService();
+}
