@@ -8078,3 +8078,4 @@ var Reporter = function(e) {
 var __WAServiceEndTime__ = Date.now();
 wx.origin = window.location.origin
 wx.isWeb = true
+wx.isWx = /micromessenger/i.test(navigator.userAgent)
