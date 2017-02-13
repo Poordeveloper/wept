@@ -400,7 +400,7 @@ export function chooseImage(data) {
       }
       reader.readAsDataURL(file);
     });
-    if (!paths.length) onSuccess(data, { tempFilePaths: [] });
+    if (!files.length) onSuccess(data, { tempFilePaths: [] });
   })
 }
 
