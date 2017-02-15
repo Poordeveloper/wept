@@ -27,9 +27,9 @@
     var __root__ = '{{= _.root}}'
     var __ip__ = '{{= _.ip}}'
     var __wx_sign_url__ = '<__wx_sign_url__>' 
-    if (window.innerWidth > 600) {
+    if (document.body.clientWidth > 600) {
       const s = document.getElementsByClassName('scrollable')[0];
-      s.style.left = (window.innerWidth - 600) / 2 + 'px';
+      s.style.left = (document.body.clientWidth - 600) / 2 + 'px';
       s.style['border-left'] = '#eee solid 1px';
       s.style['border-right'] = '#eee solid 1px';
     }

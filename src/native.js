@@ -6,7 +6,7 @@ function systemInfo() {
   return {
     model: /iPhone/.test(navigator.userAgent) ? 'iPhone6' : 'Android',
     pixelRatio: window.devicePixelRatio || 1,
-    windowWidth: (s && s.offsetWidth) || window.innerWidth || 0,
+    windowWidth: (s && s.offsetWidth) || document.body.clientWidth || 0,
     windowHeight: window.innerHeight || 0,
     language: window.navigator.userLanguage || window.navigator.language,
     platform: 'wept',
