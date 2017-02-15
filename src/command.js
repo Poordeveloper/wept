@@ -107,7 +107,7 @@ export function requestPayment(data) {
 
 function convertImageUrl(img) {
   if (!img) return;
-  if (img.startsWith('http') && img.search(/\?/) < 0) {
+  if (img.startsWith('http') && img.indexOf('?') < 0) {
     return img + '?imageMogr2/auto-orient/format/jpg';
   }
 }

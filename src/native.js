@@ -2,10 +2,11 @@ import storage from './sdk/storage'
 import merge from 'merge'
 
 function systemInfo() {
+  const s = document.getElementsByClassName('scrollable')[0];
   return {
     model: /iPhone/.test(navigator.userAgent) ? 'iPhone6' : 'Android',
     pixelRatio: window.devicePixelRatio || 1,
-    windowWidth: window.innerWidth || 0,
+    windowWidth: (s && s.offsetWidth) || window.innerWidth || 0,
     windowHeight: window.innerHeight || 0,
     language: window.navigator.userLanguage || window.navigator.language,
     platform: 'wept',

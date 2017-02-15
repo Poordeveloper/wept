@@ -27,6 +27,12 @@
     var __root__ = '{{= _.root}}'
     var __ip__ = '{{= _.ip}}'
     var __wx_sign_url__ = '<__wx_sign_url__>' 
+    if (window.innerWidth > 600) {
+      const s = document.getElementsByClassName('scrollable')[0];
+      s.style.left = (window.innerWidth - 600) / 2 + 'px';
+      s.style['border-left'] = '#eee solid 1px';
+      s.style['border-right'] = '#eee solid 1px';
+    }
   </script>
   <script src="/script/es6-shim.min.js"></script>
   <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
