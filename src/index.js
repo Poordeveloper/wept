@@ -135,6 +135,9 @@ Object.defineProperty(serviceFrame.contentWindow, 'prompt', {
 })
 }
 
+// hack for why openLocation not work issue, tmp solution
+wx.launchFromIndex = window.location.href.indexOf('#!') < 0 || window.location.href.indexOf('/index/') > 0
+
 if (/micromessenger/i.test(navigator.userAgent)) {
 setTimeout(loadService, 3000);
 

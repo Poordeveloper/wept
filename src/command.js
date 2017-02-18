@@ -570,7 +570,7 @@ export function getLocation(data, noNative) {
 
 export function openLocation(data) {
   let args = data.args
-  if (typeof wx !== 'undefined' && wx.isReady && navigator.userAgent.indexOf('wechatdevtools') < 0) {
+  if (typeof wx !== 'undefined' && wx.launchFromIndex && wx.isReady && navigator.userAgent.indexOf('wechatdevtools') < 0) {
     wx.openLocation({
       latitude: args.latitude,
       longitude: args.longitude,
