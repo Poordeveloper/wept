@@ -185,6 +185,10 @@ export function redirectTo(data) {
 }
 
 export function navigateTo(data) {
+  if (data.args.url.startsWith('http')) {
+    window.location.href = data.args.url;
+    return;
+  }
   if (window.location.href.search('/_retained\//') < 0) {
     window.history.pushState(null, '', data.args.url);
     data.pushState = true;
