@@ -12,6 +12,9 @@ export default class Scrollable extends Emitter {
       this.touchAction('none')
       this.itemHeight = root.firstElementChild.clientHeight
       this.events = events(root.parentNode.querySelector('.wx-picker-mask2'), this)
+      this.events.bind('mousedown')
+      this.events.bind('mousemove')
+      this.events.bind('mouseup')
       this.events.bind('touchstart')
       this.events.bind('touchmove')
       this.events.bind('touchend')
@@ -47,6 +50,9 @@ export default class Scrollable extends Emitter {
       at: Date.now()
     }
   }
+  onmousedown(e) {
+    this.ontouchstart(e);
+  }
   ontouchmove(e) {
     if (!this.down || this.tween) return
     e.preventDefault()
@@ -57,12 +63,18 @@ export default class Scrollable extends Emitter {
     let dest = down.sy + dy
     this.translate(dest)
   }
+  onmousemove(e) {
+    this.ontouchmove(e);
+  }
   ontouchend(e) {
     if (!this.down) return
     this.down = null
     e.preventDefault()
     let n = Math.round(this.y/this.itemHeight)
     this.select(n)
+  }
+  onmouseup(e) {
+    this.ontouchend(e);
   }
   select(index) {
     let y = index*this.itemHeight
