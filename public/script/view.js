@@ -3266,7 +3266,7 @@ window.exparser.registerElement({
     }
   }), window.exparser.registerElement({
     is: "wx-input_",
-    template: '<input id="input" class$="{{class}}" maxlength$="{{maxlength}}" style="padding:0;margin:0;width:100%;height:100%;border:0" type$="{{type}}" value$="{{value}}" disabled$="{{disabled}}" placeholder$="{{placeholder}}" />',
+    template: '<input id="input" class$="{{class}}" maxlength$="{{maxlength}}" style="padding:0;margin:0;width:100%;height:100%;border:0" type$="{{type}}" value$="{{value}}" disabled placeholder$="{{placeholder}}" />',
     behaviors: ["wx-base", "wx-data-component"],
     properties: {
       style: {
@@ -3349,6 +3349,10 @@ window.exparser.registerElement({
       this.$.input.addEventListener('blur', this._blur);
       this._inputKeyUp = this.inputKeyUp.bind(this);
       this.$.input.addEventListener("keyup", this._inputKeyUp);
+      var self = this;
+      setTimeout(function(){
+        self.$.input.disabled = self.disabled;
+      }, 400); // this is hack for penetration issue
     },
     detached: function() {
       this.$.input.removeEventListener('blur', this._blur);
