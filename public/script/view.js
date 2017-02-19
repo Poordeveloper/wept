@@ -1918,17 +1918,17 @@ function(e) {
   }), window.addEventListener("blur", function() {
     b(null, 0, 0, !0)
   }), e.addEventListener("mousedown", function(e) {
-    s || l || (a(e, !1), n(e, "touchstart"), v(e, e.pageX, e.pageY))
+    s = !0, (a(e, !1), n(e, "touchstart"), v(e, e.pageX, e.pageY))
   }, {
     capture: !0,
     passive: !1
   }), e.addEventListener("mousemove", function(e) {
-    !s && l && (a(e, !1), n(e, "touchmove"), m(e, e.pageX, e.pageY))
+    s && (a(e, !1), n(e, "touchmove"), m(e, e.pageX, e.pageY))
   }, {
     capture: !0,
     passive: !1
   }), e.addEventListener("mouseup", function(e) {
-    !s && l && (a(e, !0), n(e, "touchend"), b(e, e.pageX, e.pageY))
+    s = !1, (a(e, !0), n(e, "touchend"), b(e, e.pageX, e.pageY))
   }, {
     capture: !0,
     passive: !1
@@ -2502,16 +2502,16 @@ function(e) {
       },
       l = null;
     exparser.addListenerToElement(e, "touchstart", function(e) {
-      if (1 === e.touches.length && !l) return l = e, i = r = e.touches[0].pageX, o = a = e.touches[0].pageY, s(e, "start", i, o)
+      if (1 === (e.touches || []).length && !l) return l = e, i = r = (e.touches || [])[0].pageX, o = a = (e.touches || [])[0].pageY, s(e, "start", i, o)
     }), exparser.addListenerToElement(e, "touchmove", function(e) {
-      if (1 === e.touches.length && l) {
-        var t = s(e, "move", e.touches[0].pageX, e.touches[0].pageY);
-        return r = e.touches[0].pageX, a = e.touches[0].pageY, t
+      if (1 === (e.touches || []).length && l) {
+        var t = s(e, "move", (e.touches || [])[0].pageX, (e.touches || [])[0].pageY);
+        return r = (e.touches || [])[0].pageX, a = (e.touches || [])[0].pageY, t
       }
     }), exparser.addListenerToElement(e, "touchend", function(e) {
-      if (0 === e.touches.length && l) return l = null, s(e, "end", e.changedTouches[0].pageX, e.changedTouches[0].pageY)
+      if (0 === (e.touches || []).length && l) return l = null, s(e, "end", e.changedTouches[0].pageX, e.changedTouches[0].pageY)
     }), exparser.addListenerToElement(e, "touchcancel", function(e) {
-      if (0 === e.touches.length && l) {
+      if (0 === (e.touches || []).length && l) {
         var t = l;
         return l = null, s(e, "end", t.touches[0].pageX, t.touches[0].pageY)
       }
