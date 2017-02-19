@@ -81,6 +81,7 @@ class ImagesPreview extends Emitter {
     this.events.bind('touchend')
     this.docEvents.bind('touchend', 'ontouchend')
     event.bind(div, 'touchstart', this._containerTap)
+    event.bind(div, 'click', this.hide.bind(this));
     event.bind(doc, 'touchmove', preventDefault)
   }
 

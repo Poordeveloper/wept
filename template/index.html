@@ -22,6 +22,11 @@
     <div class="signal" style="-webkit-animation-delay: 1s;animation-delay: 1s;"></div>
     <img class="splash-image" src="/icon.png" />
   </div>
+  <div id="download" class="center-content" style="display:none;text-align:center;">
+    不好意思，本网站不支持当前浏览器，请使用Google Chrome或者Safari浏览本网站
+    <br><br>
+    <a href="https://www.google.com/chrome/browser/desktop/"> Google Chrome官方下载网站 </a>
+  </div>
   <script>
     var __wxConfig__ = {{= _.config}}
     var __root__ = '{{= _.root}}'
@@ -32,6 +37,14 @@
       s.style.left = (document.body.clientWidth - 600) / 2 + 'px';
       s.style['border-left'] = '#eee solid 1px';
       s.style['border-right'] = '#eee solid 1px';
+    }
+    const ismobile=navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i)
+    var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
+    if (!ismobile && !isChrome && !isSafari) {
+      document.getElementById('splash').style.display = 'none';
+      document.getElementsByClassName('scrollable')[0].style.display = 'none';
+      document.getElementById('download').style.display = 'block';
     }
   </script>
   <script src="/script/es6-shim.min.js"></script>

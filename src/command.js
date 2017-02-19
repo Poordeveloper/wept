@@ -119,8 +119,9 @@ export function previewImage(data) {
     onSuccess(data);
     return;
   }
-  let urls = args.urls.map(convertImageUrl)
   let current = convertImageUrl(args.current)
+  const ismobile=navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i)
+  let urls = ismobile ? args.urls.map(convertImageUrl) : [current]
   let preview = new Preview(urls, {})
   preview.show()
   preview.active(current)
