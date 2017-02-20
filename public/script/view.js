@@ -4335,10 +4335,11 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
         };
         if (L.mapbox) L.mapbox.accessToken = 'pk.eyJ1IjoiemhvdWh1YWIiLCJhIjoiY2l5NDBiMzFhMDAxNDMzcDFxZW15N29sbSJ9.upjOPNFyhTK6FXmleY8hYw';
         var t = self._map = L.mapbox ? L.mapbox.map(self.$.map, 'mapbox.streets', options) : L.map(self.$.map, options);
-        t.on('dragend', function(e) {
+        var callback = function(e) {
           var c = t.getCenter();
           self.bindregionchange && wx.publishPageEvent(self.bindregionchange, { type: 'dragend', lat: c.lat, lng : c.lng });
-        });
+        }
+        t.on('moveend', callback);
         L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
           subdomains: ['a','b','c']
@@ -4352,6 +4353,48 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
           var marker = L.marker([m.latitude, m.longitude], {icon: myIcon});
           if (m.title) marker.bindPopup(m.title);
           marker.addTo(t);
+
+          function addSearch() {
+          	function formatJSON(rawjson) {	//callback that remap fields name
+          		var json = {},
+          			key, loc, disp = [];
+          			
+          		for(var i in rawjson)
+          		{	
+          			disp = rawjson[i].display_name.split(',');	
+          
+          			key = disp[0] +', '+ disp[1];
+          			
+          			loc = L.latLng( rawjson[i].lat, rawjson[i].lon );
+          			
+          			json[ key ]= loc;	//key,value format
+          		}
+          		
+          		return json;
+          	}
+          			
+          	var mobileOpts = {
+          		url: '//nominatim.openstreetmap.org/search?format=json&q={s}',
+          		jsonpParam: 'json_callback',
+          		formatData: formatJSON,		
+          		textPlaceholder: 'Search...',
+          		autoType: false,
+          		tipAutoSubmit: true,
+          		autoCollapse: false,
+          		autoCollapseTime: 20000,
+          		delayType: 800,	//with mobile device typing is more slow
+          		marker: {
+          			icon: false 
+          		}		
+          	};
+          	
+            t.addControl( new L.Control.Search(mobileOpts) );
+          }
+          var scriptTag = document.createElement('script');
+          scriptTag.type = 'text/javascript';
+          scriptTag.src = '/script/leaflet-search.min.js';
+          scriptTag.onload = addSearch;
+          document.body.appendChild(scriptTag);
         });
       }
       var onload = function() {
@@ -4364,6 +4407,16 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
         link.type = 'text/css';
         link.href = '//unpkg.com/leaflet@1.0.3/dist/leaflet.css';
         // link.href = '//api.mapbox.com/mapbox.js/v3.0.1/mapbox.css';
+        head.appendChild(link);
+        link  = document.createElement('link');
+        link.rel  = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '/css/leaflet-search.min.css';
+        head.appendChild(link);
+        link  = document.createElement('link');
+        link.rel  = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '/css/leaflet-search.mobile.min.css';
         head.appendChild(link);
         var url = '//unpkg.com/leaflet@1.0.3/dist/leaflet.js';
         // var url = '//api.mapbox.com/mapbox.js/v3.0.1/mapbox.js';
