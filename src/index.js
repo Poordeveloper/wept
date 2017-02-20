@@ -16,6 +16,7 @@ import debounce from 'debounce'
 import * as nativeMethods from './native'
 import request from './sdk/api'
 import storage from './sdk/storage'
+import { showModal } from './command'
 require('./message')
 
 let ua = navigator.userAgent
@@ -113,7 +114,21 @@ if (_serviceLoaded) return;
 const user = storage.get('currentUser')
 const t = window.location.href.split('?t=')[1]
 if (t) {
+  if (typeof location.replace == 'function') {
+    location.replace(window.location.href.split('?t=')[0])
+  } else if (typeof history.replaceState == 'function') {
+    window.history.replaceState({}, '' , window.location.href.split('?t=')[0])
+  }
   storage.set('currentUser', JSON.stringify({sessionToken: t}));
+}
+const e = window.location.href.split('?e=')[1]
+if (e) {
+  if (typeof location.replace == 'function') {
+    location.replace(window.location.href.split('?e=')[0])
+  } else if (typeof history.replaceState == 'function') {
+    window.history.replaceState({}, '' , window.location.href.split('?e=')[0])
+  }
+  showModal({ args: { title: '登录异常', content: e === 'getAccessToken' ? '登录超时，请再试一次' : '请稍后再试', showCancel: false } });
 }
 _serviceLoaded = true;
 let serviceFrame = util.createFrame('service', '/appservice.html', true)

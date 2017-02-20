@@ -944,7 +944,7 @@ export function hideToast(data) {
 }
 
 export function showModal(data) {
-  if (requiredArgs(['title', 'content'], data)) return
+  if (requiredArgs(['title'], data)) return
   modal(data.args).then(confirm => {
     onSuccess(data, { confirm })
   })
