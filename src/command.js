@@ -506,7 +506,7 @@ export function getNetworkType(data) {
 
 export function login(data) {
   if (window.location.href.search('localhost') >= 0) return;
-  window.location = window.location.origin + '/api/wx/auth/snsapi_userinfo?state=' + encodeURIComponent(window.location.href)
+  window.location = (data.args.url || (window.location.origin + '/api/wx/auth/snsapi_userinfo?state=')) + encodeURIComponent(window.location.href)
 }
 
 export function pushState(data) {
