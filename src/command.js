@@ -208,8 +208,10 @@ window.onpopstate = function() {
       return;
     }
   }
+  Nprogress.start()
   viewManage.navigateBack(1, () => {
     onBack();
+    Nprogress.done();
   })
 }
 
