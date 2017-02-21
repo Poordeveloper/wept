@@ -14,6 +14,7 @@
   var __wxConfig = {{= _.config}}
   !(function() {
     var ua = navigator.userAgent
+    window.navigator = {} // hack for old safari Object.defineProperty(navigator, 'userAgent') fail issue
     Object.defineProperty(navigator, 'userAgent', {
       get : function () {
         return ua +' appservice webview/10000'

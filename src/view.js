@@ -53,7 +53,7 @@ export default class View extends Emitter {
     }
     this.readyCallbacks = null
     const e = document.getElementById('splash');
-    if (e) e.remove();
+    if (e) e.parentNode.removeChild(e); // e.remove has bad compatibility
   }
   onReady(cb) {
     if (this.ready) return cb()

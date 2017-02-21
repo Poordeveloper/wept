@@ -987,7 +987,9 @@ var Symbol = {};
     function n() {
       var e = ["Promise", "Caches", "screen", "performance ", "getComputedStyle", "openDatabase"];
       e.forEach(function(e) {
+        try {
         delete window[e]
+        } catch(e) {}
       }), window.chrome = void 0, window.addEventListener("load", function(e) {
         history.replaceState({}, {}, location.href + "?load")
       })

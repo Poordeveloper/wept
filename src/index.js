@@ -19,12 +19,14 @@ import storage from './sdk/storage'
 import { showModal } from './command'
 require('./message')
 
+try {
 let ua = navigator.userAgent
 Object.defineProperty(navigator, 'userAgent', {
   get : function () {
     return ua + ' weapp'
   }
 })
+} catch (e) {}
 
 Nprogress.start()
 

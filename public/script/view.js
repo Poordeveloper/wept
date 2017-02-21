@@ -4339,7 +4339,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       var onload_ = function() {
         var options = {
           center: [self.latitude, self.longitude],
-          zoom: self.scale || 16,
+          zoom: self.scale || 15,
         };
         if (L.mapbox) L.mapbox.accessToken = 'pk.eyJ1IjoiemhvdWh1YWIiLCJhIjoiY2l5NDBiMzFhMDAxNDMzcDFxZW15N29sbSJ9.upjOPNFyhTK6FXmleY8hYw';
         var t = self._map = L.mapbox ? L.mapbox.map(self.$.map, 'mapbox.streets', options) : L.map(self.$.map, options);

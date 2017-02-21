@@ -20,6 +20,7 @@
   ;(function() {
     var id = window.name.replace(/^view-/, '')
     var ua = window.navigator.userAgent
+    window.navigator = {} // hack for old safari Object.defineProperty(navigator, 'userAgent') fail issue
     Object.defineProperty(navigator, 'userAgent', {
       get : function () {
         // fix wrong webviewID parsed at o = i ? parseInt(n.match(/webview\/(\d*)/)[1]) : 0 in public/script/ViewBridge.js
