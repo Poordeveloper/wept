@@ -41,6 +41,7 @@ export default class View extends Emitter {
     this.readyCallbacks = []
   }
   _onReady() {
+    if (this._removed) return
     let cbs = this.readyCallbacks
     if (!cbs) {
       Bus.emit('reload', this)
@@ -75,6 +76,7 @@ export default class View extends Emitter {
     this.el.style.display = 'block'
   }
   destroy() {
+    this._removed = true
     this.emit('destroy')
     this.off()
     this.el.parentNode.removeChild(this.el)

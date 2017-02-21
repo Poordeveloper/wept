@@ -33,6 +33,7 @@ export function redirectTo(path) {
   let pid = curr.pid
   curr.destroy()
   delete views[curr.id]
+  delete tabViews[curr.path]
   let v = curr = new View(path)
   curr.pid = pid
   views[curr.id] = v
@@ -82,6 +83,7 @@ export function switchTo(path) {
     let v = curr = new View(p)
     curr.pid = null
     views[v.id] = v
+    tabViews[p] = curr
   } else {
     curr = find
     curr.show()
