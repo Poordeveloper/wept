@@ -154,7 +154,7 @@ Object.defineProperty(serviceFrame.contentWindow, 'prompt', {
 wx.launchFromIndex = window.location.href.indexOf('#!') < 0 || window.location.href.indexOf('/index/') > 0
 
 if (/micromessenger/i.test(navigator.userAgent)) {
-setTimeout(loadService, 3000);
+setTimeout(loadService);
 
 if (__wx_sign_url__[0] === '<') __wx_sign_url__ = '//' + window.location.hostname + '/api/wx/signature?url=' + window.location.href.split('#')[0];
 console.log(__wx_sign_url__, window.location.href);
