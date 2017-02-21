@@ -28,7 +28,7 @@ import confirm from './component/confirm'
 import Toast from './component/toast'
 import mask from './component/mask'
 import qrscan from './component/qrscan'
-import {getRedirectData, validPath, dataURItoBlob, toNumber} from './util'
+import {getRedirectData, validPath, dataURItoBlob, toNumber, isTabbar} from './util'
 import fixOrientation from 'fix-orientation'
 
 let appData = {} //eslint-disable-line
@@ -190,12 +190,6 @@ export function navigateTo(data) {
     window.location.href = data.args.url;
     return;
   }
-  if (window.location.href.search('/_retained\//') < 0) {
-    window.history.pushState(null, '', data.args.url);
-    data.pushState = true;
-    redirectTo(data);
-    return;
-  }
   let str = sessionStorage.getItem('routes')
   if (str && str.split('|').length == 5) {
     console.warn('WEPT: 当前页面栈已到达 5 个，请注意控制 navigateTo 深度')
@@ -207,19 +201,20 @@ export function navigateTo(data) {
 
 window.onpopstate = function() {
   hidePreview();
-  if (window.location.href.search('/_retained\//') >= 0) {
-    viewManage.navigateBack(1, () => {
-      onBack();
-    })
-    return;
+  const curr = viewManage.currentView();
+  if (curr.pid === null) {
+    if (!isTabbar(curr.path)) {
+      switchTab({ args: { url: '/pages/index/index' } })
+      return;
+    }
   }
-  let path = window.location.href.split('#!')[1];
-  if (!path) path = 'page/index/index';
-  redirectTo({onpopstate: true, args:{url:path.replace('page/', 'pages/')}});
+  viewManage.navigateBack(1, () => {
+    onBack();
+  })
 }
 
 export function navigateBack(data) {
-  return window.history.back();
+  return window.history.back(); // not support delta
   data.args = data.args || {}
   data.args.url = viewManage.currentView().path + '.html'
   let delta = data.args.delta ? Number(data.args.delta) : 1
@@ -534,6 +529,7 @@ export function replaceState(data) {
         url += key + '=' + data.args[key] + '&';
       }
     }
+    if (url.endsWith('&')) url = url.slice(0, url.length - 1);
     history.replaceState({}, '', url)
   }
 }

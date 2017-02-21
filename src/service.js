@@ -45,7 +45,7 @@ export function toAppService(data) {
   }
 }
 
-export function lifeSycleEvent(path, query, openType, pushState, onpopstate) {
+export function lifeSycleEvent(path, query, openType) {
   toAppService({
     msg: {
       eventName: 'onAppRoute',
@@ -53,9 +53,7 @@ export function lifeSycleEvent(path, query, openType, pushState, onpopstate) {
       data: {
         path: `${path}.wxml`,
         query: query,
-        openType: openType,
-        pushState,
-        onpopstate
+        openType: openType
       }
     }
   })
@@ -94,6 +92,6 @@ export function onNavigate(data, type = 'navigateTo') {
     webviewID: SERVICE_ID
   })
   view.onReady(() => {
-    lifeSycleEvent(view.path, view.query,type,data.pushState,data.onpopstate)
+    lifeSycleEvent(view.path, view.query,type)
   })
 }

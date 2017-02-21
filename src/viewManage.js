@@ -2,7 +2,6 @@ import Nprogress from 'nprogress'
 import * as util from './util'
 import Bus from './bus'
 import View from './view'
-import { hidePreview } from './component/preview'
 
 let curr = null
 let views = {}
@@ -40,13 +39,6 @@ export function redirectTo(path) {
   onRoute()
 }
 
-/*
-window.onpopstate = function() {
-  hidePreview();
-  navigateBack();
-};
-*/
-
 export function navigateTo(path) {
   path = normalize(path)
   let exists = tabViews[path]
@@ -79,6 +71,7 @@ export function switchTo(path) {
       delete views[key]
     }
   })
+  if (curr) curr.hide()
   if (!find) {
     let v = curr = new View(p)
     curr.pid = null
