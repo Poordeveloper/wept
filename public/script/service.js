@@ -567,7 +567,7 @@ var Reporter = function(e) {
         },
         navigateTo: function(e) {
           if (e.url && e.url.startsWith('http')) {
-            s.invokeMethod("navigateTo", e);
+            u.invokeMethod("navigateTo", e)
             return;
           }
           arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
