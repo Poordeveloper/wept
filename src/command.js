@@ -202,7 +202,7 @@ export function navigateTo(data) {
 window.onpopstate = function() {
   hidePreview();
   const curr = viewManage.currentView();
-  if (curr.pid === null) {
+  if (curr && curr.pid === null) {
     if (!isTabbar(curr.path)) {
       switchTab({ args: { url: '/pages/index/index' } })
       return;
