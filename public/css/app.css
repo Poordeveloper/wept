@@ -23,6 +23,7 @@
   text-align: center;
   border-radius: 3px;
   overflow: hidden;
+  max-width: 300px;
 }
 
 .wx-modal .wx-modal-dialog-hd {
