@@ -506,32 +506,6 @@ export function login(data) {
   window.location = (data.args.url || (window.location.origin + '/api/wx/auth/snsapi_userinfo?state=')) + encodeURIComponent(window.location.href)
 }
 
-function copyToClipboard(text) {
-    if (window.clipboardData && window.clipboardData.setData) {
-        // IE specific code path to prevent textarea being shown while dialog is visible.
-        return clipboardData.setData("Text", text); 
-
-    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
-        var textarea = document.createElement("textarea");
-        textarea.textContent = text;
-        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
-        document.body.appendChild(textarea);
-        textarea.select();
-        try {
-            return document.execCommand("copy");  // Security exception may be thrown by some browsers.
-        } catch (ex) {
-            console.warn("Copy to clipboard failed.", ex);
-            return false;
-        } finally {
-            document.body.removeChild(textarea);
-        }
-    }
-}
-
-export function copy(data) {
-  copyToClipboard(data.args.text);
-}
-
 export function pushState(data) {
   if (typeof history.pushState == 'function') {
     let url = window.location.origin + '#!' + data.args.page + '?';

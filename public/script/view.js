@@ -5,6 +5,10 @@ function _toArray(e) {
   return Array.isArray(e) ? e : Array.from(e)
 }
 
+function copySelectedRange(e) {
+  var t=document.createRange();t.selectNodeContents(e);var n=document.getSelection();n.removeAllRanges(),n.addRange(t),document.execCommand("copy",!0)
+}
+
 function _toConsumableArray(e) {
   if (Array.isArray(e)) {
     for (var t = 0, n = Array(e.length); t < e.length; t++) n[t] = e[t];
@@ -3388,6 +3392,36 @@ window.exparser.registerElement({
         type: String,
         public: !0
       },
+    },
+  }), window.exparser.registerElement({
+    is: "wx-c",
+    template: '<div id="div" class$="{{class}}" style$="{{style}}"><slot></slot></div>',
+    behaviors: ["wx-base"],
+    properties: {
+      style: {
+        type: String,
+        public: !0,
+      },
+      class: {
+        type: String,
+        public: !0,
+      },
+      text: {
+        type: String,
+        public: !0,
+      },
+      bindtap: {
+        type: String,
+        value: "",
+        public: !0
+      },
+    },
+    attached: function() {
+      self = this;
+      this.$.div.onclick = function(e) {
+        copySelectedRange(e.target);
+        self.bindtap && wx.publishPageEvent(self.bindtap, { currentTarget: { dataset: self.dataset } });
+      }
     },
   }), window.exparser.registerElement({
     is: "wx-image",

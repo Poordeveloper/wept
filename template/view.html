@@ -32,13 +32,13 @@
   })()
   var __path__ = '{{= _.path}}'
   ;(function() {
-    var win = window.parent.__wxConfig__.window
+    var win = (window.parent && window.parent.__wxConfig__ && window.parent.__wxConfig__.window) || {}
     var obj = {
       backgroundTextStyle: win.backgroundTextStyle || 'dark',
       backgroundColor: win.backgroundColor || '#fff',
       enablePullDownRefresh: win.enablePullDownRefresh || false
     }
-    var winConfig = win.pages[__path__] || {}
+    var winConfig = (win.pages && win.pages[__path__]) || {}
     Object.keys(obj).forEach(function (key) {
       if (winConfig.hasOwnProperty(key)) {
         obj[key] = winConfig[key]
