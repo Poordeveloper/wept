@@ -387,7 +387,8 @@ var Reporter = function(e) {
       addCard_fail: 69,
       openCard_fail: 70,
       replaceState: 71,
-      pushState: 72
+      pushState: 72,
+      copy: 73
     }, t.KeyValueType = {
       Speed: "13544",
       Error: "13582",
@@ -976,6 +977,9 @@ var Reporter = function(e) {
         },
         pushState: function(e) {
           (0, u.invokeMethod)("pushState", e)
+        },
+        copy: function(e) {
+          (0, u.invokeMethod)("copy", e)
         },
         checkLogin: function(e) {
           (0, u.invokeMethod)("checkLogin", e)
