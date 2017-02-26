@@ -6205,7 +6205,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
     },
     couldFocus: function(e) {
       // autoFocus cause problems on weixin UIWebview kernel
-      if (/micromessenger/i.test(navigator.userAgent) && !window.__wxjs_is_wkwebview) return;
+      if (/micromessenger/i.test(navigator.userAgent) && window.__wxjs_is_wkwebview !== true) return;
       var t = this;
       this.__attached && (!this._keyboardShow && e ? this.disabled || window.requestAnimationFrame(function() {
         t.$.textarea.focus()
