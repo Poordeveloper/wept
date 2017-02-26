@@ -6204,7 +6204,8 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       }, 0)
     },
     couldFocus: function(e) {
-      return; // autoFocus cause problems on weixin browser
+      // autoFocus cause problems on weixin browser
+      if (/micromessenger/i.test(navigator.userAgent)) return;
       var t = this;
       this.__attached && (!this._keyboardShow && e ? this.disabled || window.requestAnimationFrame(function() {
         t.$.textarea.focus()

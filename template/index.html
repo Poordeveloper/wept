@@ -10,6 +10,26 @@
   <meta name="viewport" content="width=device-width, height=device-height,user-scalable=no, initial-scale=1.0" />
 </head>
 <body>
+<script>
+  if (window.LOAD_FB) {
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '141365756382924',
+      xfbml      : true,
+      version    : 'v2.8'
+    });
+    FB.AppEvents.logPageView();
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+  }
+</script>
   <div id="app"></div>
   <div class="head" style="display:none">
   </div>
