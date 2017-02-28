@@ -49,7 +49,9 @@ export default class DatePicker extends Emitter {
     // TODO validate value
   }
   getCurrent() {
-    const str = this.opts.current
+    let str = this.opts.current
+    const n = new Date();
+    if (!str) str = n.getFullYear() + '-' + (n.getMonth()+1) + '-' + n.getDate();
     const parts = str.split('-')
     return [Number(parts[0])- this.sy, Number(parts[1]) - 1, Number(parts[2]) - 1]
   }

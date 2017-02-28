@@ -15,6 +15,7 @@ export default class Scrollable extends Emitter {
       this.events.bind('mousedown')
       this.events.bind('mousemove')
       this.events.bind('mouseup')
+      this.events.bind('mouseout')
       this.events.bind('touchstart')
       this.events.bind('touchmove')
       this.events.bind('touchend')
@@ -74,6 +75,9 @@ export default class Scrollable extends Emitter {
     this.select(n)
   }
   onmouseup(e) {
+    this.ontouchend(e);
+  }
+  onmouseout(e) {
     this.ontouchend(e);
   }
   select(index) {

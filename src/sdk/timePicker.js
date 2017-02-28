@@ -43,7 +43,7 @@ export default class TimePicker extends Emitter {
     // TODO validate value
   }
   getCurrent() {
-    const str = this.opts.current
+    const str = this.opts.current || '12:00'
     const parts = str.split(':')
     return [Number(parts[0]), Number(parts[1])]
   }

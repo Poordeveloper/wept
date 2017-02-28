@@ -4984,7 +4984,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
     showSelector: function(e) {
       var t = this;
       if (!this.disabled) {
-        var n = parseInt(this.value);
+        var n = this.value >= 0 ? parseInt(this.value) : this.range.indexOf(this.value);
         (isNaN(n) || n >= this.range.length) && (n = 0);
         var i = [];
         if (this.rangeKey)

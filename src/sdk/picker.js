@@ -16,6 +16,8 @@ export default class Picker extends Emitter {
   }
   show() {
     this.root.appendChild(domify('<div class="wx-picker-mask"></div>'))
+    const self = this;
+    setTimeout(function(){self.events.bind('click .wx-picker-mask', 'cancel');}, 400);
     const items = this.opts.array.map(text => {
       return {text, value: text}
     })
