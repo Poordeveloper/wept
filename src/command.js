@@ -28,8 +28,14 @@ import confirm from './component/confirm'
 import Toast from './component/toast'
 import mask from './component/mask'
 import qrscan from './component/qrscan'
-import {getRedirectData, validPath, dataURItoBlob, toNumber, isTabbar} from './util'
 import fixOrientation from 'fix-orientation'
+import {getRedirectData,
+  validPath,
+  dataURItoBlob,
+  isAbs,
+  isTabbar,
+  warn,
+  toNumber} from './util'
 
 let appData = {} //eslint-disable-line
 let fileIndex = 0
@@ -679,7 +685,8 @@ export function stopRecord() {
 
 export function playVoice(data) {
   let url = data.args.filePath
-  let audio = document.getElementById("audio");
+  if (!isAbs(url)) warn('playVoice 相对路径 url 仅在 WEPT 中可用，请在应用上线前切换为线上 url')
+  let audio = document.getElementById("audio")
   if (audio.src && audio.paused && !audio.ended) {
     // resume
     audio.play()
