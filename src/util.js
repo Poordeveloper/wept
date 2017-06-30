@@ -48,6 +48,9 @@ export function reload() {
 }
 
 export function navigateHome() {
+  if (window.cordova) {
+    return;
+  }
   let home = `${location.protocol}//${location.host}`
   if (typeof location.replace == 'function') {
     location.replace(home)
@@ -61,6 +64,9 @@ export function navigateHome() {
 }
 
 export function redirectTo(url) {
+  if (window.cordova) {
+    return;
+  }
   let home = `${location.protocol}//${location.host}`
   if (typeof history.replaceState == 'function') {
     history.replaceState({}, '', `${home}#!${url}`)

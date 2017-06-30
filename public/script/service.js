@@ -4294,3 +4294,4 @@ var __WAServiceEndTime__ = Date.now();
 wx.origin = window.location.origin
 wx.isWeb = true
 wx.isWx = /micromessenger/i.test(navigator.userAgent)
+wx.isCordova = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;

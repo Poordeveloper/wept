@@ -120,7 +120,7 @@ function convertImageUrl(img) {
 
 export function previewImage(data) {
   let args = data.args
-  if (wx.isReady && args.current.startsWith('http')) {
+  if (typeof wx !== 'undefined' && wx.isReady && args.current.startsWith('http')) {
     wx.previewImage(args);
     onSuccess(data);
     return;
@@ -222,7 +222,7 @@ window.onpopstate = function() {
 }
 
 export function navigateBack(data) {
-  return window.history.back(); // not support delta
+  if (!window.cordova) return window.history.back(); // not support delta
   data.args = data.args || {}
   data.args.url = viewManage.currentView().path + '.html'
   let delta = data.args.delta ? Number(data.args.delta) : 1

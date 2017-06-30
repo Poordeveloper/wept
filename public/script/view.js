@@ -4382,7 +4382,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
           self.bindregionchange && wx.publishPageEvent(self.bindregionchange, { type: 'dragend', lat: c.lat, lng : c.lng });
         }
         t.on('moveend', callback);
-        L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
           subdomains: ['a','b','c']
         }).addTo(t);
@@ -4434,7 +4434,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
           }
           var scriptTag = document.createElement('script');
           scriptTag.type = 'text/javascript';
-          scriptTag.src = '/script/leaflet-search.min.js';
+          scriptTag.src = '../../../script/leaflet-search.min.js';
           scriptTag.onload = addSearch;
           document.body.appendChild(scriptTag);
         });
@@ -4447,20 +4447,20 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
         var link  = document.createElement('link');
         link.rel  = 'stylesheet';
         link.type = 'text/css';
-        link.href = '//unpkg.com/leaflet@1.0.3/dist/leaflet.css';
-        // link.href = '//api.mapbox.com/mapbox.js/v3.0.1/mapbox.css';
+        link.href = 'https://unpkg.com/leaflet@1.0.3/dist/leaflet.css';
+        // link.href = 'https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css';
         head.appendChild(link);
         link  = document.createElement('link');
         link.rel  = 'stylesheet';
         link.type = 'text/css';
-        link.href = '/css/leaflet-search.min.css';
+        link.href = '../../../css/leaflet-search.min.css';
         head.appendChild(link);
         link  = document.createElement('link');
         link.rel  = 'stylesheet';
         link.type = 'text/css';
-        link.href = '/css/leaflet-search.mobile.min.css';
+        link.href = '../../../css/leaflet-search.mobile.min.css';
         head.appendChild(link);
-        var url = '//unpkg.com/leaflet@1.0.3/dist/leaflet.js';
+        var url = 'https://unpkg.com/leaflet@1.0.3/dist/leaflet.js';
         // var url = '//api.mapbox.com/mapbox.js/v3.0.1/mapbox.js';
         var scriptTag = document.createElement('script');
         scriptTag.type = 'text/javascript';

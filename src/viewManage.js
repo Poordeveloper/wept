@@ -47,7 +47,7 @@ export function navigateTo(path) {
     curr = exists
     exists.show()
   } else {
-    window.history.pushState(null, '', path);
+    if (!window.cordova) history.pushState(null, '', path);
     let isTabView = util.isTabbar(path)
     let pid = curr ? curr.id : null
     let v = curr = new View(path)

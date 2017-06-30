@@ -164,11 +164,27 @@ request({url: __wx_sign_url__}).then(data => {
   window.wx.config({
     // debug: true,
     ...data,
-    jsApiList: ['chooseImage', 'previewImage', 'openLocation', 'getLocation'],
+    jsApiList: ['chooseImage', 'previewImage', 'openLocation', 'getLocation',
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage',
+      'onMenuShareQQ',
+      'onMenuShareWeibo',
+      'onMenuShareQZone'],
   });
   window.wx.ready(() => {
     wx.isReady = true;
     console.log('wx ready');
+    var data = {
+      title: '新加坡新生活 - 新加坡大陆移民生活圈',
+      link: 'http://wx.newshbb.com',
+      imgUrl: 'http://wx.newshbb.com/icon.png', // 分享图标
+    };
+    wx.defaultShareData = data;
+    wx.onMenuShareTimeline(data);
+    wx.onMenuShareAppMessage(data);
+    wx.onMenuShareQQ(data);
+    wx.onMenuShareWeibo(data);
+    wx.onMenuShareQZone(data);
     loadService();
   });
 });
@@ -179,5 +195,7 @@ request({url: __wx_sign_url__}).then(data => {
   scriptTag.onload = afterWxLoad;
   document.body.appendChild(scriptTag);
 } else {
-loadService();
+if (window.cordova) {
+  document.addEventListener("deviceready", loadService, false);
+} else loadService();
 }

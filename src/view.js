@@ -21,9 +21,10 @@ export default class View extends Emitter {
     let root = document.querySelector('.scrollable')
     let width = window.innerWidth
     let ratio = window.devicePixelRatio
-    let url = external ? path : `../../app/${o.path}.wxml?w=${width}&r=${ratio}`
+    const prefix = window.cordova ? '' : '/';
+    let url = external ? path : `${prefix}app/${o.path}.wxml?w=${width}&r=${ratio}`
     if (window.fhashes && window.fhashes[o.path]) {
-      url = `../../app/${o.path}.html?v=` + window.fhashes[o.path];
+      url = `${prefix}app/${o.path}.html?v=` + window.fhashes[o.path];
     }
     this.el = createFrame(`view-${id}`, url, false, root)
     this.ready = false
