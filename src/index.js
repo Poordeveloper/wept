@@ -133,7 +133,7 @@ if (e) {
   showModal({ args: { title: '登录异常', content: e === 'getAccessToken' ? '登录超时，请再试一次' : '请稍后再试', showCancel: false } });
 }
 _serviceLoaded = true;
-let serviceFrame = util.createFrame('service', '/appservice.html', true)
+let serviceFrame = util.createFrame('service', 'appservice.html', true)
 Object.defineProperty(serviceFrame.contentWindow, 'prompt', {
   get: function () {
     return function (str) {
@@ -152,10 +152,11 @@ Object.defineProperty(serviceFrame.contentWindow, 'prompt', {
 })
 }
 
-// hack for why openLocation not work issue, tmp solution
-wx.launchFromIndex = window.location.href.indexOf('#!') < 0 || window.location.href.indexOf('/index/') > 0
 
 if (/micromessenger/i.test(navigator.userAgent)) {
+  function afterWxLoad() {
+// hack for why openLocation not work issue, tmp solution
+wx.launchFromIndex = window.location.href.indexOf('#!') < 0 || window.location.href.indexOf('/index/') > 0
 setTimeout(loadService, 1000);
 
 if (__wx_sign_url__[0] === '<') __wx_sign_url__ = '//' + window.location.hostname + '/api/wx/signature?url=' + window.location.href.split('#')[0];
@@ -171,6 +172,12 @@ request({url: __wx_sign_url__}).then(data => {
     loadService();
   });
 });
+}
+  var scriptTag = document.createElement('script');
+  scriptTag.type = 'text/javascript';
+  scriptTag.src = '//res.wx.qq.com/open/js/jweixin-1.2.0.js';
+  scriptTag.onload = afterWxLoad;
+  document.body.appendChild(scriptTag);
 } else {
 loadService();
 }

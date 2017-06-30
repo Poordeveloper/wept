@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <link href="/icon-fill.png" rel="Shortcut Icon">
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline';">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <link href="icon-fill.png" rel="Shortcut Icon">
   <meta charset="UTF-8" />
-  <link rel="stylesheet" type="text/css" href="/css/index.css?v={{= _.version}}">
-  <link rel="stylesheet" type="text/css" href="/css/app.css?v={{= _.version}}">
-  <link rel="apple-touch-icon" href="/icon-fill.png">
-  <link rel="icon" href="/icon-fill.png">
+  <link rel="stylesheet" type="text/css" href="css/index.css?v={{= _.version}}">
+  <link rel="stylesheet" type="text/css" href="css/app.css?v={{= _.version}}">
+  <link rel="apple-touch-icon" href="icon-fill.png">
+  <link rel="icon" href="icon-fill.png">
   <meta name="viewport" content="width=device-width, height=device-height,user-scalable=no, initial-scale=1.0" />
 </head>
 <body>
-<script>
+<script>/*
   if (window.LOAD_FB) {
   window.fbAsyncInit = function() {
     FB.init({
@@ -28,7 +31,7 @@
      js.src = "//connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
-  }
+  }*/
 </script>
   <div id="app"></div>
   <div class="head" style="display:none">
@@ -39,14 +42,14 @@
   </div>
   <div id="splash" class="center-content">
     <div class="signal"></div>
-    <img class="splash-image" src="/icon.png" />
+    <img class="splash-image" src="icon.png" />
   </div>
   <div id="download" class="center-content" style="display:none;text-align:center;">
     不好意思，本网站不支持当前浏览器，请使用Google Chrome或者Safari浏览本网站
     <br><br>
     <a href="https://www.google.com/chrome/browser/desktop/"> Google Chrome官方下载网站 </a>
   </div>
-  <script src="https://og6593g2z.qnssl.com/fundebug.0.0.4.min.js" apikey="b8a302b80bc69145ccdc86fd64e3e40185c27cf8b1f8845ea22e6b14f607f6ef"></script>
+  <script src="https://og6593g2z.qnssl.com/fundebug.0.0.4.min.js" async="async" apikey="b8a302b80bc69145ccdc86fd64e3e40185c27cf8b1f8845ea22e6b14f607f6ef"></script>
   <script>
     var __wxConfig__ = {{= _.config}}
     var __root__ = '{{= _.root}}'
@@ -67,9 +70,9 @@
       document.getElementById('download').style.display = 'block';
     }
   </script>
-  <script src="/script/es6-shim.min.js"></script>
-  <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-  <script src="/script/build.js?v={{= _.version}}"></script>
-  <img src="/icon.png" style="position:absolute;left:-1000px">
+  <script src="script/es6-shim.min.js"></script>
+  <script type="text/javascript" src="cordova.js"></script>
+  <script src="script/build.js?v={{= _.version}}"></script>
+  <img src="icon.png" style="position:absolute;left:-1000px">
 </body>
 </html>
