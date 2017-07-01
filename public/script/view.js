@@ -5588,6 +5588,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
         var n = e.$.main;
         e._touchScrollTop = e.$.main.scrollTop, e._touchScrollLeft = e.$.main.scrollLeft, e._touchScrollBottom = e._touchScrollTop + n.offsetHeight === n.scrollHeight, e._touchScrollRight = e._touchScrollLeft + n.offsetWidth === n.scrollWidth
       }, this.__handleTouchEnd = function() {
+        e.$.main.style.webkitOverflowScrolling = null;
         myWeixinJSBridge.invoke("disableScrollBounce", {
           disable: !1
         }, function() {})
@@ -5611,21 +5612,23 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       return "start" === e.detail.state ? (this._x = e.detail.x, this._y = e.detail.y, void(this._noBubble = null)) : ("end" === e.detail.state && (this._noBubble = !1), null === this._noBubble && this.scrollY && (Math.abs(this._y - e.detail.y) / Math.abs(this._x - e.detail.x) > 1 ? this._noBubble = !0 : this._noBubble = !1), null === this._noBubble && this.scrollX && (Math.abs(this._x - e.detail.x) / Math.abs(this._y - e.detail.y) > 1 ? this._noBubble = !0 : this._noBubble = !1), this._x = e.detail.x, this._y = e.detail.y, void(this._noBubble && e.stopPropagation()))
     },
     _handleScroll: function(e) {
+      var s = (e.currentTarget || e.target).scrollTop;
+      if (s < 0) this.$.main.style.webkitOverflowScrolling = 'auto';
       this._bounce || (clearTimeout(this._timeout), this._timeout = setTimeout(function() {
         var e = this.$.main;
         if (this.triggerEvent("scroll", {
             scrollLeft: e.scrollLeft,
-            scrollTop: e.scrollTop,
+            scrollTop: s,
             scrollHeight: e.scrollHeight,
             scrollWidth: e.scrollWidth,
             deltaX: this._lastScrollLeft - e.scrollLeft,
-            deltaY: this._lastScrollTop - e.scrollTop
+            deltaY: this._lastScrollTop - s
           }), this.scrollY) {
-          var t = this._lastScrollTop - e.scrollTop > 0,
-            n = this._lastScrollTop - e.scrollTop < 0;
-          e.scrollTop <= this.upperThreshold && t && this.triggerEvent("scrolltoupper", {
+          var t = this._lastScrollTop - s > 0,
+            n = this._lastScrollTop - s < 0;
+          s <= this.upperThreshold && t && this.triggerEvent("scrolltoupper", {
             direction: "top"
-          }), e.scrollTop + e.offsetHeight + this.lowerThreshold >= e.scrollHeight && n && this.triggerEvent("scrolltolower", {
+          }), s + e.offsetHeight + this.lowerThreshold >= e.scrollHeight && n && this.triggerEvent("scrolltolower", {
             direction: "bottom"
           })
         }
@@ -5638,7 +5641,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
             direction: "right"
           })
         }
-        this.scrollTop = this._lastScrollTop = e.scrollTop, this.scrollLeft = this._lastScrollLeft = e.scrollLeft
+        this.scrollTop = this._lastScrollTop = s, this.scrollLeft = this._lastScrollLeft = e.scrollLeft
       }.bind(this), 50))
     },
     _checkBounce: function() {
