@@ -491,6 +491,7 @@ var Reporter = function(e) {
       O = !1,
       E = [],
       R = [],
+      R2 = [],
       j = void 0,
       D = void 0;
     "devtools" === (0, f.getPlatform)() && (0, u.subscribe)("SPECIAL_PAGE_EVENT", function(e) {
@@ -906,6 +907,9 @@ var Reporter = function(e) {
           O || ((0, u.invokeMethod)("enableCompass", {
             enable: !0
           }), O = !0), R.push(Reporter.surroundThirdByTryCatch(e, "at onCompassChange callback function"))
+        },
+        onCordovaEvent: function(e) {
+          R2.push(Reporter.surroundThirdByTryCatch(e, "at onCordovaEvent callback function"))
         },
         reportAction: function(e) {
           (0, u.invokeMethod)("reportAction", e)
@@ -1459,6 +1463,11 @@ var Reporter = function(e) {
       R.forEach(function(t) {
         "function" == typeof t && t(e)
       })
+    }), (0, u.onMethod)("onCordovaEvent", function() {
+      var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+      arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 0;
+      R2.forEach(function(t) {
+        "function" == typeof t && t(e)
     }), (0, u.onMethod)("onError", function() {
       var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
       arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 0;

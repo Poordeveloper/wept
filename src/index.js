@@ -196,6 +196,24 @@ request({url: __wx_sign_url__}).then(data => {
   document.body.appendChild(scriptTag);
 } else {
 if (window.cordova) {
-  document.addEventListener("deviceready", loadService, false);
+  function tmp(name) {
+    toAppService({
+      msg: {
+        eventName: 'onCordovaEvent',
+        type: 'ON_APPLIFECYCLE_EVENT',
+        data: {
+          name 
+        }
+      }
+    });
+  }
+  document.addEventListener("deviceready", function() {
+    loadService();
+    document.addEventListener("resume", () => tmp('resume'), false);
+    document.addEventListener("pause", () => tmp('pause'), false);
+    document.addEventListener("online", () => tmp('online'), false);
+    document.addEventListener("offline", () => tmp('offline'), false);
+    document.addEventListener("backbutton", () => tmp('backbutton'), false);
+  }, false);
 } else loadService();
 }
