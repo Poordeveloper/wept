@@ -126,6 +126,11 @@ export function previewImage(data) {
     return;
   }
   let current = convertImageUrl(args.current)
+  if (window.cordova) {
+    PhotoViewer.show(current, '');
+    onSuccess(data)
+    return;
+  }
   const ismobile=navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i)
   let urls = ismobile ? args.urls.map(convertImageUrl) : [current]
   let preview = new Preview(urls, {})

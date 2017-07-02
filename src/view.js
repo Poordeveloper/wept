@@ -72,9 +72,19 @@ export default class View extends Emitter {
   }
   hide() {
     this.el.style.display = 'none'
+    const innerDoc = this.el.contentDocument || this.el.contentWindow.document;
+    const elems = innerDoc.getElementsByClassName('wx-scroll-view');
+    for (let i = 0; i < elems.length; ++i) {
+      elems[i].style.webkitOverflowScrolling = 'auto';
+    }
   }
   show() {
     this.el.style.display = 'block'
+    const innerDoc = this.el.contentDocument || this.el.contentWindow.document;
+    const elems = innerDoc.getElementsByClassName('wx-scroll-view');
+    for (let i = 0; i < elems.length; ++i) {
+      elems[i].style.webkitOverflowScrolling = null;
+    }
   }
   destroy() {
     this._removed = true
