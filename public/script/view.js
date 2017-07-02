@@ -4416,7 +4416,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
           	}
           			
           	var mobileOpts = {
-          		url: '//nominatim.openstreetmap.org/search?format=json&q={s}',
+          		url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
           		jsonpParam: 'json_callback',
           		formatData: formatJSON,		
           		textPlaceholder: 'Search...',
