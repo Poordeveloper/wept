@@ -502,6 +502,7 @@ var Symbol = {};
         onMusicEnd: [],
         onMusicError: [],
         onPullDownRefresh: [],
+        onCordovaEvent: [],
         onCompassChange: [],
         onAccelerometerChange: [],
         onNetworkStatusChange: []

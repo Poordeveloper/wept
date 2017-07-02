@@ -1468,6 +1468,7 @@ var Reporter = function(e) {
       arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 0;
       R2.forEach(function(t) {
         "function" == typeof t && t(e)
+      })
     }), (0, u.onMethod)("onError", function() {
       var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
       arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 0;
