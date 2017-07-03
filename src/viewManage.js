@@ -93,7 +93,24 @@ export function navigateBack(delta = 1, onBack) {
   if (curr.pid == null) return
   for (let i = delta; i > 0; i--) {
     if (curr.pid == null) break;
-    curr.destroy()
+    let m = parseInt(curr.el.style.marginLeft || '0px');
+    let w = document.body.clientWidth;
+    const delta = w / 15;
+    const n = parseInt((w - m) / delta);
+    if (n > 3) {
+      const tmp = curr;
+      const interval = setInterval(() => {
+        m += delta;
+        if (m >= w) {
+          clearInterval(interval);
+          tmp.destroy();
+        } else {
+          tmp.el.style.marginLeft = m + 'px';
+        }
+      }, 300 / 15);
+    } else {
+      curr.destroy()
+    }
     delete views[curr.id]
     curr = views[curr.pid]
     if (onBack) onBack()

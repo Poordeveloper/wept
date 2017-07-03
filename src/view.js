@@ -3,7 +3,6 @@ import merge from 'merge'
 import Emitter from 'emitter'
 import {uid, createFrame, parsePath} from './util'
 import {navigateBack} from './command'
-// import {TimelineLite} from "gsap";
 
 function isMap(path) {
   return /^\/\/(www\.streetdirectory\.com|3gimg\.qq\.com)/.test(path)
@@ -46,14 +45,14 @@ export default class View extends Emitter {
   }
   onTouchStart = (e) => {
     if (!this.previous) return;
-    if (e.touches[0].pageX > 30) return;
+    if (e.touches[0].pageX > 60) return;
     this.startPoint = e.touches[0];
     this.startTime = new Date()
   }
   onTouchMove = (e) => {
     if (!this.previous) return;
     this.curPoint = e.touches[0];
-    if (!this.startPoint && this.curPoint.pageX < 30) {
+    if (!this.startPoint && this.curPoint.pageX < 60) {
       this.startPoint = this.curPoint;
       this.startTime = new Date()
     }
@@ -71,7 +70,7 @@ export default class View extends Emitter {
   onTouchEnd = (e) => {
     if (this.dx > 0) {
       if (this.dx > document.body.clientWidth / 2 ||
-        this.dx > 30 && (new Date() - this.startTime) < 500) {
+        this.dx > 60 && (new Date() - this.startTime) < 500) {
         navigateBack();
       } else {
         this.previous.el.style.display = 'none';
