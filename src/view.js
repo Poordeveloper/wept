@@ -3,7 +3,7 @@ import merge from 'merge'
 import Emitter from 'emitter'
 import {uid, createFrame, parsePath} from './util'
 import {navigateBack} from './command'
-import {TimelineLite} from "gsap";
+// import {TimelineLite} from "gsap";
 
 function isMap(path) {
   return /^\/\/(www\.streetdirectory\.com|3gimg\.qq\.com)/.test(path)
