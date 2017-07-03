@@ -5611,24 +5611,24 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
     _handleTrack: function(e) {
       return "start" === e.detail.state ? (this._x = e.detail.x, this._y = e.detail.y, void(this._noBubble = null)) : ("end" === e.detail.state && (this._noBubble = !1), null === this._noBubble && this.scrollY && (Math.abs(this._y - e.detail.y) / Math.abs(this._x - e.detail.x) > 1 ? this._noBubble = !0 : this._noBubble = !1), null === this._noBubble && this.scrollX && (Math.abs(this._x - e.detail.x) / Math.abs(this._y - e.detail.y) > 1 ? this._noBubble = !0 : this._noBubble = !1), this._x = e.detail.x, this._y = e.detail.y, void(this._noBubble && e.stopPropagation()))
     },
-    _handleScroll: function(e) {
-      var s = (e.currentTarget || e.target).scrollTop;
-      if (s < 0) this.$.main.style.webkitOverflowScrolling = 'auto';
+    _handleScroll: function() {
+      var e = this.$.main;
+      if (e.scrollTop < 0) this.$.main.style.webkitOverflowScrolling = 'auto';
       this._bounce || (clearTimeout(this._timeout), this._timeout = setTimeout(function() {
         var e = this.$.main;
         if (this.triggerEvent("scroll", {
             scrollLeft: e.scrollLeft,
-            scrollTop: s,
+            scrollTop: e.scrollTop,
             scrollHeight: e.scrollHeight,
             scrollWidth: e.scrollWidth,
             deltaX: this._lastScrollLeft - e.scrollLeft,
-            deltaY: this._lastScrollTop - s
+            deltaY: this._lastScrollTop - e.scrollTop
           }), this.scrollY) {
-          var t = this._lastScrollTop - s > 0,
-            n = this._lastScrollTop - s < 0;
-          s <= this.upperThreshold && t && this.triggerEvent("scrolltoupper", {
+          var t = this._lastScrollTop - e.scrollTop > 0,
+            n = this._lastScrollTop - e.scrollTop < 0;
+          e.scrollTop <= this.upperThreshold && t && this.triggerEvent("scrolltoupper", {
             direction: "top"
-          }), s + e.offsetHeight + this.lowerThreshold >= e.scrollHeight && n && this.triggerEvent("scrolltolower", {
+          }), e.scrollTop + e.offsetHeight + this.lowerThreshold >= e.scrollHeight && n && this.triggerEvent("scrolltolower", {
             direction: "bottom"
           })
         }
@@ -5641,7 +5641,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
             direction: "right"
           })
         }
-        this.scrollTop = this._lastScrollTop = s, this.scrollLeft = this._lastScrollLeft = e.scrollLeft
+        this.scrollTop = this._lastScrollTop = e.scrollTop, this.scrollLeft = this._lastScrollLeft = e.scrollLeft
       }.bind(this), 50))
     },
     _checkBounce: function() {
@@ -6021,7 +6021,7 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
     })
   }(), window.exparser.registerElement({
     is: "wx-text",
-    template: '\n    <span id="raw" style="display:none;"><slot></slot></span>\n    <span id="main"></span>\n  ',
+    template: '\n<slot></slot>\n  ',
     behaviors: ["wx-base"],
     properties: {
       style: {
@@ -6032,11 +6032,6 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       class: {
         type: String, public: !0, observer: "_classChanged"
       },
-      selectable: {
-        type: Boolean,
-        value: !1,
-        public: !0
-      }
     },
     _styleChanged: function(e) {
       this.$$.setAttribute("style", e)
@@ -6044,32 +6039,6 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
     _classChanged: function(e) {
       this.$$.setAttribute("class", e)
     },
-    _htmlEncode: function(e) {
-      return e.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/\'/g, "&apos;")
-    },
-    _update: function() {
-      for (var e = this.$.raw, t = document.createDocumentFragment(), n = 0, i = e.childNodes.length; n < i; n++) {
-        var o = e.childNodes.item(n);
-        if (o.nodeType === o.TEXT_NODE) {
-          var r = document.createElement("span");
-          r.innerHTML = this._htmlEncode(o.textContent).replace(/\n/g, "<br>"), t.appendChild(r)
-        } else o.nodeType === o.ELEMENT_NODE && "WX-TEXT" === o.tagName && t.appendChild(o.cloneNode(!0))
-      }
-      this.$.main.innerHTML = "", this.$.main.appendChild(t)
-    },
-    created: function() {
-      this._observer = exparser.Observer.create(function() {
-        this._update()
-      }), this._observer.observe(this, {
-        childList: !0,
-        subtree: !0,
-        characterData: !0,
-        properties: !0
-      })
-    },
-    attached: function() {
-      this._update()
-    }
   }), window.exparser.registerElement({
     is: "wx-switch",
     template: '\n    <div class="wx-switch-wrapper">\n      <div hidden$="{{!isSwitch(type)}}" id="switchInput" type="checkbox" class="wx-switch-input" class.wx-switch-input-checked="{{checked}}" class.wx-switch-input-disabled="{{disabled}}" style.background-color="{{color}}" style.border-color="{{_getSwitchBorderColor(checked,color)}}"></div>\n      <div hidden$="{{!isCheckbox(type)}}" id="checkboxInput" type="checkbox" class="wx-checkbox-input" class.wx-checkbox-input-checked="{{checked}}" class.wx-checkbox-input-disabled="{{disabled}}" style.color="{{color}}"></div>\n    </div>\n  ',
