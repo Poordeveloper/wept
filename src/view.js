@@ -2,6 +2,8 @@ import Bus from './bus'
 import merge from 'merge'
 import Emitter from 'emitter'
 import {uid, createFrame, parsePath} from './util'
+import {navigateBack} from './command'
+import {TimelineLite} from "gsap";
 
 function isMap(path) {
   return /^\/\/(www\.streetdirectory\.com|3gimg\.qq\.com)/.test(path)
@@ -40,6 +42,58 @@ export default class View extends Emitter {
       })
     }
     this.readyCallbacks = []
+    setTimeout(() => this.observeTouch(), 1000);
+  }
+  onTouchStart = (e) => {
+    if (!this.previous) return;
+    if (e.touches[0].pageX > 30) return;
+    this.startPoint = e.touches[0];
+    this.startTime = new Date()
+  }
+  onTouchMove = (e) => {
+    if (!this.previous) return;
+    this.curPoint = e.touches[0];
+    if (!this.startPoint && this.curPoint.pageX < 30) {
+      this.startPoint = this.curPoint;
+      this.startTime = new Date()
+    }
+    const s = this.startPoint;
+    if (!s) return;
+    const c = this.curPoint;
+    const dx = c.screenX - s.screenX;
+    this.dx = dx;
+    const dy = c.screenY - s.screenY;
+    if (dx > 0 && Math.abs(dy) < 30) {
+      if (this.previous.el.style.display !== 'block') this.previous.el.style.display = 'block';
+      this.el.style.marginLeft = dx + 'px';
+    }
+  }
+  onTouchEnd = (e) => {
+    if (this.dx > 0) {
+      if (this.dx > document.body.clientWidth / 2 ||
+        this.dx > 30 && (new Date() - this.startTime) < 500) {
+        navigateBack();
+      } else {
+        this.previous.el.style.display = 'none';
+        this.el.style.marginLeft = '0px';
+      }
+    }
+    delete this.startPoint;
+    delete this.dx;
+  }
+  observeTouch() {
+    if (!this.previous) return;
+    this.unobserveTouch();
+    const innerDoc = this.el.contentDocument || this.el.contentWindow.document;
+    innerDoc.body.addEventListener('touchstart', this.onTouchStart);
+    innerDoc.body.addEventListener('touchmove', this.onTouchMove);
+    innerDoc.body.addEventListener('touchend', this.onTouchEnd);
+  }
+  unobserveTouch() {
+    const innerDoc = this.el.contentDocument || this.el.contentWindow.document;
+    innerDoc.body.removeEventListener('touchstart', this.onTouchStart);
+    innerDoc.body.removeEventListener('touchmove', this.onTouchMove);
+    innerDoc.body.removeEventListener('touchend', this.onTouchEnd);
   }
   _onReady() {
     if (this._removed) return
@@ -72,21 +126,26 @@ export default class View extends Emitter {
   }
   hide() {
     this.el.style.display = 'none'
-    const innerDoc = this.el.contentDocument || this.el.contentWindow.document;
+    const innerDoc = this.el.contentDocument || this.el.contentWindow && this.el.contentWindow.document;
+    if (!innerDoc) return;
     const elems = innerDoc.getElementsByClassName('wx-scroll-view');
     for (let i = 0; i < elems.length; ++i) {
       elems[i].style.webkitOverflowScrolling = 'auto';
     }
+    this.unobserveTouch();
   }
   show() {
     this.el.style.display = 'block'
-    const innerDoc = this.el.contentDocument || this.el.contentWindow.document;
+    const innerDoc = this.el.contentDocument || this.el.contentWindow && this.el.contentWindow.document;
+    if (!innerDoc) return;
     const elems = innerDoc.getElementsByClassName('wx-scroll-view');
     for (let i = 0; i < elems.length; ++i) {
       elems[i].style.webkitOverflowScrolling = null;
     }
+    this.observeTouch();
   }
   destroy() {
+    this.unobserveTouch();
     this._removed = true
     this.emit('destroy')
     this.off()

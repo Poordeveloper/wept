@@ -226,7 +226,7 @@ window.onpopstate = function() {
   })
 }
 
-export function navigateBack(data) {
+export function navigateBack(data={}) {
   if (!window.cordova) return window.history.back(); // not support delta
   data.args = data.args || {}
   data.args.url = viewManage.currentView().path + '.html'

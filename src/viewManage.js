@@ -36,6 +36,7 @@ export function redirectTo(path) {
   let v = curr = new View(path)
   curr.pid = pid
   views[curr.id] = v
+  curr.previous = views[curr.pid]
   onRoute()
 }
 
@@ -52,6 +53,7 @@ export function navigateTo(path) {
     let pid = curr ? curr.id : null
     let v = curr = new View(path)
     curr.pid = isTabView ? null : pid
+    curr.previous = views[curr.pid]
     views[v.id] = v
     if (isTabView) tabViews[path] = curr
   }
@@ -75,6 +77,7 @@ export function switchTo(path) {
   if (!find) {
     let v = curr = new View(p)
     curr.pid = null
+    curr.previous = null
     views[v.id] = v
     tabViews[p] = curr
   } else {

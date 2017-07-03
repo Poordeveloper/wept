@@ -598,6 +598,7 @@ xpopup
 @media only screen and (max-width: 767px){
   .scrollable {
     overflow-y: scroll;
+    overflow-x: hidden;
   }
 }
 

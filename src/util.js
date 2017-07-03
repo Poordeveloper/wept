@@ -18,6 +18,9 @@ export function createFrame(id, src, hidden, parent = document.body) {
   if (hidden) {
     el.setAttribute('style', 'width:0;height:0;border:0; display:none;')
   }
+  el.style.position = 'absolute';
+  el.style.top = '0px';
+  el.style.background = 'white';
   parent.appendChild(el)
   return el
 }

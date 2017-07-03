@@ -27,6 +27,7 @@
     "fix-orientation": "0.0.2",
     "glob": "^7.1.1",
     "growl": "^1.9.2",
+    "gsap": "^1.20.2",
     "jsondiffpatch": "^0.2.4",
     "koa": "^1.2.4",
     "koa-compress": "^1.0.9",
