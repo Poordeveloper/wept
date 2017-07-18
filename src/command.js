@@ -232,8 +232,10 @@ export function navigateBack(data={}) {
   data.args.url = viewManage.currentView().path + '.html'
   let delta = data.args.delta ? Number(data.args.delta) : 1
   if (isNaN(delta)) return Toast('Delta 必须为数字', {type: 'error'})
+  Nprogress.start()
   viewManage.navigateBack(delta, () => {
     onBack()
+    Nprogress.done();
   })
   onNavigate(data, 'navigateBack')
 }
@@ -600,7 +602,7 @@ export function openLocation(data) {
     return;
   }
   let url = '/pages/map/map?lng=' + args.longitude + '&lat=' + args.latitude;
-  if (args.address) url += '&showAddress=' + args.address.replace(/&/g, ' ');
+  if (args.address) url += '&address=' + args.address.replace(/&/g, ' ');
   navigateTo({ args: { url } });
   /*
   let url = "//apis.map.qq.com/tools/poimarker?type=0&marker=coord:" + args.latitude + "," + args.longitude + "&key=JMRBZ-R4HCD-X674O-PXLN4-B7CLH-42BSB&referer=wxdevtools"

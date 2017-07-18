@@ -91,6 +91,8 @@ export function switchTo(path) {
 export function navigateBack(delta = 1, onBack) {
   if (!curr) throw new Error('Current page not exists')
   if (curr.pid == null) return
+  // document.getElementById('view-' + curr.id).remove();
+  // return;
   for (let i = delta; i > 0; i--) {
     if (curr.pid == null) break;
     let m = parseInt(curr.el.style.marginLeft || '0px');
@@ -99,15 +101,16 @@ export function navigateBack(delta = 1, onBack) {
     const n = parseInt((w - m) / delta);
     if (n > 3) {
       const tmp = curr;
-      const interval = setInterval(() => {
+      const func = () => {
         m += delta;
         if (m >= w) {
-          clearInterval(interval);
           tmp.destroy();
         } else {
           tmp.el.style.marginLeft = m + 'px';
+          setTimeout(func, 300 / 15);
         }
-      }, 300 / 15);
+      }
+      func();
     } else {
       curr.destroy()
     }

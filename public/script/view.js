@@ -5616,6 +5616,16 @@ var _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator 
       if (e.scrollTop < 0) this.$.main.style.webkitOverflowScrolling = 'auto';
       this._bounce || (clearTimeout(this._timeout), this._timeout = setTimeout(function() {
         var e = this.$.main;
+        /*
+        var c = e.childNodes;
+        if (c[0] && c[0].className.indexOf('p2rview') >= 0) {
+          c = c[0].childNodes;
+        }
+        offsets = [];
+        for (var j = 0; j < c.length; ++j) {
+          offsets.push(c[j].offsetHeight);
+        }
+        */
         if (this.triggerEvent("scroll", {
             scrollLeft: e.scrollLeft,
             scrollTop: e.scrollTop,

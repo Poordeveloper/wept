@@ -83,13 +83,13 @@ export default class View extends Emitter {
   observeTouch() {
     if (!this.previous) return;
     this.unobserveTouch();
-    const innerDoc = this.el.contentDocument || this.el.contentWindow.document;
+    const innerDoc = this.el.contentWindow.document;
     innerDoc.body.addEventListener('touchstart', this.onTouchStart);
     innerDoc.body.addEventListener('touchmove', this.onTouchMove);
     innerDoc.body.addEventListener('touchend', this.onTouchEnd);
   }
   unobserveTouch() {
-    const innerDoc = this.el.contentDocument || this.el.contentWindow.document;
+    const innerDoc = this.el.contentWindow.document;
     innerDoc.body.removeEventListener('touchstart', this.onTouchStart);
     innerDoc.body.removeEventListener('touchmove', this.onTouchMove);
     innerDoc.body.removeEventListener('touchend', this.onTouchEnd);
@@ -125,7 +125,7 @@ export default class View extends Emitter {
   }
   hide() {
     this.el.style.display = 'none'
-    const innerDoc = this.el.contentDocument || this.el.contentWindow && this.el.contentWindow.document;
+    const innerDoc = this.el.contentWindow && this.el.contentWindow.document;
     if (!innerDoc) return;
     const elems = innerDoc.getElementsByClassName('wx-scroll-view');
     for (let i = 0; i < elems.length; ++i) {
@@ -135,7 +135,7 @@ export default class View extends Emitter {
   }
   show() {
     this.el.style.display = 'block'
-    const innerDoc = this.el.contentDocument || this.el.contentWindow && this.el.contentWindow.document;
+    const innerDoc = this.el.contentWindow && this.el.contentWindow.document;
     if (!innerDoc) return;
     const elems = innerDoc.getElementsByClassName('wx-scroll-view');
     for (let i = 0; i < elems.length; ++i) {
@@ -148,7 +148,10 @@ export default class View extends Emitter {
     this._removed = true
     this.emit('destroy')
     this.off()
-    this.el.parentNode.removeChild(this.el)
+    this.el.setAttribute('src', "about:blank");
+    this.el.contentWindow.document.write('');
+    this.el.contentWindow.close();
+    this.el.remove()
   }
   postMessage(data) {
     this.onReady(() => {
