@@ -198,7 +198,11 @@ export function redirectTo(data) {
 
 export function navigateTo(data) {
   if (data.args.url.startsWith('http')) {
-    window.location.href = data.args.url;
+    if (data.args.url.startsWith('http:') && location.href.startsWith('https:') || !data.args.embed) {
+      window.location.href = data.args.url;
+    } else {
+      viewManage.currentView().setSrc(data.args.url);
+    }
     return;
   }
   let str = sessionStorage.getItem('routes')

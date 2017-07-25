@@ -153,6 +153,9 @@ export default class View extends Emitter {
     this.el.contentWindow.close();
     this.el.remove()
   }
+  setSrc(src) {
+    this.el.setAttribute('src', src);
+  }
   postMessage(data) {
     this.onReady(() => {
       let obj = merge.recursive(true, {
