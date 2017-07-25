@@ -364,7 +364,7 @@ export function setNavigationBarTitle(data) {
   if (typeof __params__ !== 'undefined' && __params__.title && (typeof wx === 'undefined' || !wx.onShare)) return;
   if (title) {
     header.setTitle(title);
-    if (wx.onShare) wx.onShare({ title });
+    if (typeof wx !== 'undefined' && wx.onShare) wx.onShare({ title });
   }
 }
 
