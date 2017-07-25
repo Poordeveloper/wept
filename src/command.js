@@ -361,7 +361,10 @@ export function send_app_data(data) {
 
 export function setNavigationBarTitle(data) {
   let title = data.args.title
-  if (title) header.setTitle(title)
+  if (title) {
+    header.setTitle(title);
+    if (wx.onShare) wx.onShare({ title });
+  }
 }
 
 export function showNavigationBarLoading() {

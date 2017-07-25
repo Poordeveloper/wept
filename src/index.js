@@ -180,11 +180,19 @@ request({url: __wx_sign_url__}).then(data => {
       imgUrl: 'http://wx.newshbb.com/icon.png', // 分享图标
     };
     wx.defaultShareData = data;
-    wx.onMenuShareTimeline(data);
-    wx.onMenuShareAppMessage(data);
-    wx.onMenuShareQQ(data);
-    wx.onMenuShareWeibo(data);
-    wx.onMenuShareQZone(data);
+    function share(data) {
+      wx.onMenuShareTimeline(data);
+      wx.onMenuShareAppMessage(data);
+      wx.onMenuShareQQ(data);
+      wx.onMenuShareWeibo(data);
+      wx.onMenuShareQZone(data);
+    }
+    share(data);
+    wx.onShare = function(d) {
+      data.link = location.href;
+      Object.assign(data, d);
+      share(data);
+    }
     loadService();
   });
 });
