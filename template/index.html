@@ -32,6 +32,7 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
   }*/
+function parse_query_string(e){for(var t=e.split("&"),r={},o=0;o<t.length;o++){var n=t[o].split("=");if(void 0===r[n[0]])r[n[0]]=decodeURIComponent(n[1]);else if("string"==typeof r[n[0]]){var i=[r[n[0]],decodeURIComponent(n[1])];r[n[0]]=i}else r[n[0]].push(decodeURIComponent(n[1]))}return r}var __params__=parse_query_string(location.href.substr(location.href.indexOf("?")+1));__params__.title&&(document.title=__params__.title);
 </script>
   <div id="app"></div>
   <div class="head" style="display:none">
